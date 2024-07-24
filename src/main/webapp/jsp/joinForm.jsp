@@ -43,7 +43,7 @@ function joinValidation() {
 	/* 이메일 : 유효성(가입신청버튼 클릭시) */
 	let regExEmail1 = /^[0-9a-zA-Z]*([-_\.]?[0-9a-zA-Z])*$/
 	let regExEmail2 = /^[0-9a-zA-Z]*([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$|^$/
-	let email1 = joinForm.email1.value
+	let email1 = joinForm.email1.value 
 	let email2 = joinForm.email2.value
 	if(!regExEmail1.test(email1) && !regExEmail2.test(email2)) {
 		alert('이메일을 형식에 맞게 입력해주세요.')
