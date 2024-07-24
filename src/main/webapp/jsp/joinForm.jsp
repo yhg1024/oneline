@@ -41,15 +41,22 @@ function joinValidation() {
 	}
 
 	/* 이메일 : 유효성(가입신청버튼 클릭시) */
-	let regExEmail1 = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*$/i
-	let regExEmail2 = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+	let regExEmail1 = /^[0-9a-zA-Z]*([-_\.]?[0-9a-zA-Z])*$/
+	let regExEmail2 = /^[0-9a-zA-Z]*([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$|^$/
 	let email1 = joinForm.email1.value
 	let email2 = joinForm.email2.value
 	if(!regExEmail1.test(email1) && !regExEmail2.test(email2)) {
 		alert('이메일을 형식에 맞게 입력해주세요.')
 		return false
 	}
-
+	/* 휴대폰 : 숫자만*/
+	let regExPhone = /^[0-9]*$/
+	let phone2 = joinForm.phone2.value
+	let phone3 = joinForm.phone3.value
+	if (!regExPhone.test(phone2) && !regExPhone.test(phone3)) {
+		alert('전화번호를 형식에 맞게 입력해주세요.')
+		return false
+	}	
 		          
 
 	/* 주민번호 : 숫자만 주민번호 유효성
@@ -62,7 +69,7 @@ function joinValidation() {
 		alert('주민번호를 형식에 맞게 입력해주세요.')
 		return false
 	}
-	let regExJcode2 = /^[1-2]/
+	let regExJcode2 = /^[1-2]|^$/
 	if(!regExJcode2.test(jcode2)) {
 		alert('주민번호 뒷자리를 형식에 맞게 입력해주세요.')
 		return false
@@ -73,7 +80,9 @@ function joinValidation() {
 
 /* 휴대폰 : 숫자만 4자리 -> 3번째로
           4개 입력하면 3번째 창으로 커서이동 */
-function checkNumber(num,fromform,toform) {
+
+function move(num,fromform,toform) {
+
 	let str = fromform.value.length
 	if(str == num) {
 		toform.focus();
@@ -117,7 +126,7 @@ function checkName(num) {
 			                    <option value="017">017</option>
 			                    <option value="019">019</option>
 			                </select>
-			                - <input type="tel" maxlength="4" size="4" name="phone2" id="phone2" class="phone" onkeyup="checkNumber(4,this,this.form.phone3)">
+			                - <input type="tel" maxlength="4" size="4" name="phone2" id="phone2" class="phone" onkeyup="move(4,this,this.form.phone3)">
 			                - <input type="tel" maxlength="4" size="4" name="phone3" id="phone3" class="phone"></br></br>
 					    성별 : <input type="radio" name="sex" id="male" value="남자">남자</input> <input type="radio" name="sex" id="female" value="여자">여자</input></br></br>
 					    주민번호: <input type="text" name=jcode1 size=8 maxlength="6"> - <input type="password" name=jcode2 size=9 maxlength="7"></br></br>
