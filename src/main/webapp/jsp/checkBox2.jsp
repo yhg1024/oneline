@@ -23,24 +23,44 @@
     </div>
     <div id='result'></div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     $(function() {
         let selectedCities = [];
 
         $("#selectAll").click(function() {
-            $("input[name=city]").prop("checked", this.checked);
+            const isChecked = this.checked;
+            $("input[name=city]").prop("checked", isChecked);
+            if (isChecked) {
+                // 전체 선택 시, 이미 선택된 도시를 앞으로 두고 추가
+                $("input[name=city]:checked").each(function() {
+                    const cityValue = $(this).val();
+                    if (!selectedCities.includes(cityValue)) {
+                        selectedCities.push(cityValue); // 이미 선택된 도시 추가
+                    }
+                });
+                $("input[name=city]").each(function() {
+                    if (this.checked && !selectedCities.includes(this.value)) {
+                        selectedCities.push(this.value); // 새로 선택된 도시 추가
+                    }
+                });
+            } else {
+                // 전체 선택 해제 시, 모든 도시 제거
+                selectedCities = [];
+            }
             checkList();
         });
 
         $("input[name=city]").change(function() {
             const cityValue = $(this).val();
             if ($(this).is(":checked")) {
-                selectedCities.push(cityValue); // 체크된 경우 추가
+                if (!selectedCities.includes(cityValue)) {
+                    selectedCities.push(cityValue); // 새로 선택된 도시 추가
+                }
             } else {
                 selectedCities = selectedCities.filter(city => city !== cityValue); // 체크 해제된 경우 제거
             }
 
+            // 전체 선택 체크 상태 업데이트
             var totalCnt = $("input[name=city]").length;		  
             var checkedCnt = $('[name="city"]:checked').length;
             $("#selectAll").prop("checked", totalCnt === checkedCnt);
@@ -48,6 +68,7 @@
         });
 
         function checkList() {
+            // 선택된 도시를 클릭 순서대로 출력
             $('#result').text(selectedCities.join(' ')); // 선택된 도시를 공백으로 구분하여 출력
         }
     });
