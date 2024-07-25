@@ -31,11 +31,12 @@
             const isChecked = this.checked;
             $("input[name=city]").prop("checked", isChecked);
             if (isChecked) {
-                // 전체 선택 시, 이미 선택된 도시를 앞으로 두고 추가
+                // 전체 선택
                 $("input[name=city]:checked").each(function() {
-                    const cityValue = $(this).val();
+                    const cityValue = $(this).val();             
+                    // 선택된 도시 목록에 지금 선택한 도시들이 없다면 추가
                     if (!selectedCities.includes(cityValue)) {
-                        selectedCities.push(cityValue); // 이미 선택된 도시 추가
+                        selectedCities.push(cityValue);
                     }
                 });
                 $("input[name=city]").each(function() {
