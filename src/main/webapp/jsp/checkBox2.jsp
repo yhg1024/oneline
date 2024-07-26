@@ -66,12 +66,24 @@
             var checkedCnt = $('[name="city"]:checked').length;
             $("#selectAll").prop("checked", totalCnt === checkedCnt);
             checkList();
+            
+            
+            
         });
 
         function checkList() {
             // 선택된 도시를 클릭 순서대로 출력
             $('#result').text(selectedCities.join(' ')); // 선택된 도시를 공백으로 구분하여 출력
         }
+        
+        /* 버튼은 4이하나 전체일때 '성공' 아닐때는 실패로 alert */
+        $('input[type=button]').click(function(){
+        	if (selectedCities.length <= 4 || $("#selectAll").is(":checked")) {
+        		alert('성공')
+        	} else {
+        		alert('실패')
+        	}
+        })
     });
     </script>
 </body>
