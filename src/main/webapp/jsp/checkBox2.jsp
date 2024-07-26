@@ -58,6 +58,7 @@
                     selectedCities.push(cityValue); // 새로 선택된 도시 추가
                 }
             } else {
+            	// city와 cityValue(this.val)가 타입과 값이 다른 것을 배열에 담는다. = 지운다
                 selectedCities = selectedCities.filter(city => city !== cityValue); // 체크 해제된 경우 제거
             }
 
@@ -84,6 +85,20 @@
         		alert('실패')
         	}
         })
+        
+        /* 
+        filter Ex
+        let array = [3, 5, 11, 0, 9, 'string']
+        
+        1. filter()의 괄호 안에
+        let result = array.filter(value => value < 10)
+        
+        2. filter외부에 사용
+        function lessThanTen(value) {
+        	return value < 10
+        }
+        let result = array.filter(lessThanTen)
+        */
     });
     </script>
 </body>
