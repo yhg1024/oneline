@@ -21,4 +21,5 @@
 	    <property name="mapperLocations" value="classpath:mapper/*.xml" />
 	</bean>
 	
+	
 </beans>

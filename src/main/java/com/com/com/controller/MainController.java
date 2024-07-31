@@ -20,8 +20,15 @@ public class MainController {
 	private BoardService boardService;
 
 	@RequestMapping("/boardList")
-	public String test(Model model) {
+	public String getAllBoards(Model model) {
 	  model.addAttribute("viewAll", boardService.getAllBoards());
-	  return "test";
+	  return "boardList";
 	}
+	
+	@RequestMapping("/boardWrite")
+	public String boardWrite(Model model) {
+	  model.addAttribute("Model", model);
+	  return "boardWrite";
+	}
+	
 }

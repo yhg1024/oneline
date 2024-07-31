@@ -6,13 +6,12 @@ public class BoardVO {
 	private int seq;
 	private String memName;
 	private String memId;
-	private String boardSubject;
+	private String title;
 	private String boardContent;
 	private Date regDate;
 	private Date uptDate;
 	private String viewCnt;
-	private String useyn;
-
+	private String useYN;
 	
 	public int getSeq() {
 		return seq;
@@ -32,11 +31,11 @@ public class BoardVO {
 	public void setMemId(String memId) {
 		this.memId = memId;
 	}
-	public String getBoardSubject() {
-		return boardSubject;
+	public String getTitle() {
+		return title;
 	}
-	public void setBoardSubject(String boardSubject) {
-		this.boardSubject = boardSubject;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getBoardContent() {
 		return boardContent;
@@ -62,12 +61,11 @@ public class BoardVO {
 	public void setViewCnt(String viewCnt) {
 		this.viewCnt = viewCnt;
 	}
-	public String getUseyn() {
-		return useyn;
+	public String getUseYN() {
+		return useYN;
 	}
-	public void setUseyn(String useyn) {
-		this.useyn = useyn;
+	public void setUseYN(String useYN) {
+		this.useYN = useYN;
 	}
-	
-	
+
 }
