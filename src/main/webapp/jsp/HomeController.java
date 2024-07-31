@@ -1,4 +1,4 @@
-package com.com.com;
+package com.com.com.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
