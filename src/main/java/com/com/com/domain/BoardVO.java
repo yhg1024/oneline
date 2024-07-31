@@ -3,68 +3,71 @@ package com.com.com.domain;
 import java.util.Date;
 
 public class BoardVO {
-	private int SEQ;
-	private String MEM_NAME;
-	private String MEM_ID;
-	private String BOARD_SUBJECT;
-	private String BOARD_CONTENT;
-	private Date REG_DATE;
-	private Date UPT_DATE;
-	private String VIEW_CNT;
-	private String USEYN;
+	private int seq;
+	private String memName;
+	private String memId;
+	private String boardSubject;
+	private String boardContent;
+	private Date regDate;
+	private Date uptDate;
+	private String viewCnt;
+	private String useyn;
+
 	
-	public int getSEQ() {
-		return SEQ;
+	public int getSeq() {
+		return seq;
 	}
-	public void setSEQ(int sEQ) {
-		SEQ = sEQ;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
-	public String getMEM_NAME() {
-		return MEM_NAME;
+	public String getMemName() {
+		return memName;
 	}
-	public void setMEM_NAME(String mEM_NAME) {
-		MEM_NAME = mEM_NAME;
+	public void setMemName(String memName) {
+		this.memName = memName;
 	}
-	public String getMEM_ID() {
-		return MEM_ID;
+	public String getMemId() {
+		return memId;
 	}
-	public void setMEM_ID(String mEM_ID) {
-		MEM_ID = mEM_ID;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
-	public String getBOARD_SUBJECT() {
-		return BOARD_SUBJECT;
+	public String getBoardSubject() {
+		return boardSubject;
 	}
-	public void setBOARD_SUBJECT(String bOARD_SUBJECT) {
-		BOARD_SUBJECT = bOARD_SUBJECT;
+	public void setBoardSubject(String boardSubject) {
+		this.boardSubject = boardSubject;
 	}
-	public String getBOARD_CONTENT() {
-		return BOARD_CONTENT;
+	public String getBoardContent() {
+		return boardContent;
 	}
-	public void setBOARD_CONTENT(String bOARD_CONTENT) {
-		BOARD_CONTENT = bOARD_CONTENT;
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
 	}
-	public Date getREG_DATE() {
-		return REG_DATE;
+	public Date getRegDate() {
+		return regDate;
 	}
-	public void setREG_DATE(Date rEG_DATE) {
-		REG_DATE = rEG_DATE;
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
 	}
-	public Date getUPT_DATE() {
-		return UPT_DATE;
+	public Date getUptDate() {
+		return uptDate;
 	}
-	public void setUPT_DATE(Date uPT_DATE) {
-		UPT_DATE = uPT_DATE;
+	public void setUptDate(Date uptDate) {
+		this.uptDate = uptDate;
 	}
-	public String getVIEW_CNT() {
-		return VIEW_CNT;
+	public String getViewCnt() {
+		return viewCnt;
 	}
-	public void setVIEW_CNT(String vIEW_CNT) {
-		VIEW_CNT = vIEW_CNT;
+	public void setViewCnt(String viewCnt) {
+		this.viewCnt = viewCnt;
 	}
-	public String getUSEYN() {
-		return USEYN;
+	public String getUseyn() {
+		return useyn;
 	}
-	public void setUSEYN(String uSEYN) {
-		USEYN = uSEYN;
+	public void setUseyn(String useyn) {
+		this.useyn = useyn;
 	}
+	
+	
 }

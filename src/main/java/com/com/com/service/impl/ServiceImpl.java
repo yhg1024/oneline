@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.com.com.dao.BoardDaoInter;
 import com.com.com.domain.BoardVO;
 import com.com.com.mapper.BoardMapper;
 import com.com.com.service.BoardService;
@@ -17,11 +18,10 @@ import com.com.com.service.BoardService;
 public class ServiceImpl implements BoardService {
 	
 	@Autowired
-	@Resource(name="boardMapper")
-	private BoardMapper boardMapper;
+	private BoardDaoInter boardDao;
 	
 	@Override
 	public List<BoardVO> getAllBoards() {
-		return boardMapper.viewAll();
+		return boardDao.viewAll();
 	}
 }
