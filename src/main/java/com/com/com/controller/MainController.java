@@ -19,7 +19,7 @@ public class MainController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping("/test")
+	@RequestMapping("/boardList")
 	public String test(Model model) {
 	  model.addAttribute("viewAll", boardService.getAllBoards());
 	  return "test";

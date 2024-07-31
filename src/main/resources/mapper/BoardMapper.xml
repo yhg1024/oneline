@@ -4,9 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace = "mapper">
+ 	<resultMap id="boardList" type="com.com.com.domain.BoardVO">
+ 		<result property="seq" column="SEQ"/>
+ 		<result property="memName" column="MEM_NAME"/>
+ 		<result property="boardContent" column="BOARD_CONTENT"/>
+ 		<result property="regDate" column="REG_DATE"/>
+ 		<result property="uptDate" column="UPT_DATE"/>
+ 		<result property="viewCnt" column="VIEW_CNT"/>
+ 	</resultMap> 
+ 	
  	<!-- 전체 내용 조회 -->
-	<select id="viewAll" resultType="com.com.com.domain.BoardVO">
-	  SELECT * FROM BOARD_STUDY ORDER BY SEQ DESC
+	<select id="viewAll" resultMap="boardList">
+	  SELECT SEQ, MEM_NAME, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT FROM BOARD_STUDY ORDER BY SEQ DESC
 	</select>
 </mapper>
   

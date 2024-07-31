@@ -3,6 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<!-- environment id를 구분하여 연결할 DB를 여려개 구성할 수 도 있음 -->	
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC"></transactionManager>
