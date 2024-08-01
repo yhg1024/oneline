@@ -22,8 +22,8 @@ public class ServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int boardWriteService(BoardVO vo) throws Exception {
+	public void insertBoard(BoardVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return boardDao.boardWrite(vo);
+		boardDao.boardWrite(vo);
 	}
 }

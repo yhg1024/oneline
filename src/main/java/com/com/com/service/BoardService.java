@@ -6,10 +6,13 @@ import com.com.com.domain.BoardVO;
 
 public interface BoardService {
 		
-	List<BoardVO> getAllBoards();
+	// 리스트 조회
+	public List<BoardVO> getAllBoards();
 
-	int boardWriteService(BoardVO board) throws Exception;
+	// 게시물 등록
+	public void insertBoard(BoardVO board) throws Exception;
 
 
+	// 게시물 수정
 
 }

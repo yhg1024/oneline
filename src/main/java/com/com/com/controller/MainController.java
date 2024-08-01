@@ -38,26 +38,10 @@ public class MainController {
 	  return "boardWrite";
 	}
 	
-	/*
-	 * @RequestMapping("/boardWriteProc") public String
-	 * boardWriteProc(HttpServletRequest request) throws Exception {
-	 * 
-	 * BoardVO board = new BoardVO();
-	 * 
-	 * board.setMemName(request.getParameter("memName"));
-	 * board.setMemId(request.getParameter("memId"));
-	 * board.setTitle(request.getParameter("title"));
-	 * board.setBoardContent(request.getParameter("boardContent"));
-	 * 
-	 * mBoardService.boardWriteService(board);
-	 * 
-	 * return "redirect:/board/list"; }
-	 */
-	
 	@RequestMapping("/boardWriteProc")
 	public String BoardWrite(BoardVO vo) throws Exception {
 		System.out.println(vo);
-		boardService.boardWriteService(vo);
+		boardService.insertBoard(vo);
 		return "redirect:/board/list";
 	}
 	

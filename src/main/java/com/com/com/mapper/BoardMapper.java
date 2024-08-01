@@ -9,9 +9,10 @@ import com.com.com.domain.BoardVO;
 @Mapper
 public interface BoardMapper {
 
-	List<BoardVO> viewAll();
+	// 리스트 조회
+	public List<BoardVO> viewAll();
 
-	int boardWrite(BoardVO board);
+	public void boardWrite(BoardVO board);
 
 
 }
