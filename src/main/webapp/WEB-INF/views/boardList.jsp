@@ -29,5 +29,6 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
 </body>
 </html>

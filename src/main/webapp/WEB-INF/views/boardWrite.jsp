@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1>게시글 작성</h1>
-	<form name="writeForm" id="writeForm" method="post">
+	<form action="/boardWriteProc" name="writeForm" id="writeForm" method="post">
 		<p>작성자 : <input type="text" name="memName" /></p>
 		<p>ID : <input type="text" name="memId" /></p>
 		<p>제목 : <input type="text" name="title" /></p>

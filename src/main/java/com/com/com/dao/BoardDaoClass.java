@@ -21,4 +21,9 @@ public class BoardDaoClass implements BoardDaoInter{
 		return sqlSession.selectList("mapper.viewAll");
 	}
 
+	public int boardWrite(BoardVO vo) { 
+		return sqlSession.insert("mapper.write", vo);
+	} 
+
+	
 }

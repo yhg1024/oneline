@@ -67,5 +67,6 @@ public class BoardVO {
 	public void setUseYN(String useYN) {
 		this.useYN = useYN;
 	}
-
+	
+	
 }
