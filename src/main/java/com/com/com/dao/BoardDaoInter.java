@@ -7,8 +7,10 @@ import com.com.com.domain.BoardVO;
 
 public interface BoardDaoInter {
 
-	List<BoardVO> viewAll();
+	public List<BoardVO> viewAll();
 	
-	// BoardVO write(Map<String, Object> map);
+	public int boardWrite(BoardVO vo);
+	
+	public BoardVO detail(int seq);
 
 }

@@ -1,6 +1,7 @@
 package com.com.com.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -21,8 +22,15 @@ public class BoardDaoClass implements BoardDaoInter{
 		return sqlSession.selectList("mapper.viewAll");
 	}
 
+	@Override
 	public int boardWrite(BoardVO vo) { 
 		return sqlSession.insert("mapper.write", vo);
+	}
+
+	@Override
+	public BoardVO detail(int seq) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.detail", seq);
 	} 
 
 	

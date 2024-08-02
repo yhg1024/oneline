@@ -1,6 +1,7 @@
 package com.com.com.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +15,5 @@ public interface BoardMapper {
 
 	public void boardWrite(BoardVO board);
 
-
+	public BoardVO detail(int seq);
 }

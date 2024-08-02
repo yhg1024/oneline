@@ -18,13 +18,21 @@
  	
  	<!-- 전체 내용 조회 -->
 	<select id="viewAll" resultMap="boardList">
-	  SELECT SEQ, MEM_NAME, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT FROM BOARD_STUDY ORDER BY SEQ DESC
+	  SELECT SEQ, MEM_NAME, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT 
+	  	FROM BOARD_STUDY 
+	  ORDER BY SEQ DESC
 	</select>
 	
 	<insert id="write" parameterType="map" >
 		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
 			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, NULL, NULL )
 	</insert>
+	
+	<select id="detail" parameterType="int" resultMap="boardList">
+		SELECT *
+			FROM BOARD_STUDY
+		WHERE SEQ = #{seq}
+	</select>
 	
 	
 	<update id="viewCnt" parameterType="int">

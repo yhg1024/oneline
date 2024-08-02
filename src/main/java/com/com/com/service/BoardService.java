@@ -1,7 +1,6 @@
 package com.com.com.service;
 
 import java.util.List;
-
 import com.com.com.domain.BoardVO;
 
 public interface BoardService {
@@ -11,6 +10,8 @@ public interface BoardService {
 
 	// 게시물 등록
 	public void insertBoard(BoardVO board) throws Exception;
+
+	public BoardVO detail(int seq);
 
 
 	// 게시물 수정

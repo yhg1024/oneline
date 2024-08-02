@@ -1,6 +1,8 @@
 package com.com.com.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,11 @@ public class ServiceImpl implements BoardService {
 
 	@Override
 	public void insertBoard(BoardVO vo) throws Exception {
-		// TODO Auto-generated method stub
 		boardDao.boardWrite(vo);
+	}
+
+	@Override
+	public BoardVO detail(int seq) {
+		return boardDao.detail(seq);
 	}
 }
