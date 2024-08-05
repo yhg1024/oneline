@@ -11,6 +11,7 @@
 <body>
 	<table border="1">
 		<tr>
+			<th><input type="checkbox" name="list" value="selectAll" id="selectAll"/></th>
 			<th>글번호</th>
 			<th>작성자(ID)</th>
 			<th>제목</th>
@@ -19,10 +20,11 @@
 			<th>조회수</th>
 		</tr>
 		<c:forEach items="${viewAll}" var="list" begin="0" end="10">
-			<tr onclick="location.href='/board/detail?seq=${list.seq}'">
-				<td>${list.seq}</td>
-				<td>${list.memName}</td>
-				<td>${list.title}</td>
+			<tr>
+				<td><input type="checkbox" name="list" /></td>
+				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
+				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}</td>
+				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.title}</td>
 				<td>${list.regDate}</td>
 				<td>${list.uptDate}</td>
 				<td>${list.viewCnt}</td>
@@ -30,5 +32,6 @@
 		</c:forEach>
 	</table>
 	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
+	<button type="button" onclick="location.href='/board/delete?seq=${list.seq}'">삭제</button>
 </body>
 </html>

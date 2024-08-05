@@ -1,5 +1,7 @@
 package com.com.com.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,11 @@ public class MainController {
 
 	@RequestMapping("/list")
 	public String getAllBoards(Model model) {
-	  model.addAttribute("viewAll", boardService.getAllBoards());
+		List<BoardVO> list = boardService.getAllBoards();
+		
+		// List<Map<String, Object>> listMap = boardService.getAllBoards();
+		
+	  model.addAttribute("viewAll", list);
 	  return "board/list";
 	}
 	
@@ -38,20 +44,21 @@ public class MainController {
 	  return "board/write";
 	}
 	
-	@RequestMapping("/writeProc")
-	public String BoardWrite(BoardVO vo) throws Exception {
+	@RequestMapping(value="/write")
+	public String boardWrite(BoardVO vo) throws Exception {
 		boardService.insertBoard(vo);
 		return "redirect:/board/list";
 	}
 	
 	@RequestMapping("/detail")
-	public String BoardDetail(Model model, int seq) {
+	public String boardDetail(Model model, int seq) {
 		model.addAttribute("detail", boardService.detail(seq));
 		return "board/detail";
 	}
 	
-	public String BoardUpdate(BoardVO vo) throws Exception {
-		boardService.insertBoard(vo);
+	@RequestMapping("/delete")
+	public String delete(int seq) {
+		boardService.delete(seq);
 		return "redirect:/board/list";
 	}
 	

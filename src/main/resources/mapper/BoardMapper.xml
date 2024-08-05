@@ -32,11 +32,14 @@
 		SELECT *
 			FROM BOARD_STUDY
 		WHERE SEQ = #{seq}
-	</select>
-	
+	</select>	
 	
 	<update id="viewCnt" parameterType="int">
 		 UPDATE BOARD_STUDY SET VIEW_CNT = VIEW_CNT + 1 WHERE SEQ = #{seq}
 	</update>
+	
+	<delete id="delete">
+        DELETE FROM BOARD_STUDY WHERE SEQ = #{seq}
+    </delete>
 </mapper>
   

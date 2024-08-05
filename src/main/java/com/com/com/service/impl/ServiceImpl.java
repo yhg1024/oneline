@@ -24,12 +24,18 @@ public class ServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void insertBoard(BoardVO vo) throws Exception {
+	public void insertBoard(BoardVO vo) {
 		boardDao.boardWrite(vo);
 	}
 
 	@Override
 	public BoardVO detail(int seq) {
 		return boardDao.detail(seq);
+	}
+
+	@Override
+	public void delete(int seq) {
+		boardDao.delete(seq);
+		
 	}
 }

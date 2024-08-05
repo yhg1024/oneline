@@ -12,7 +12,6 @@ public class BoardVO {
 	private Date uptDate;
 	private String viewCnt;
 	private String useYN;
-	
 	public int getSeq() {
 		return seq;
 	}

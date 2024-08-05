@@ -18,7 +18,7 @@
 		<div>내용 : ${detail.boardContent}</div>
 	</div>
 	<button onclick="loction.href='/board/update/${detail.seq}'">수정</button>
-	<button onclick="loction.href='/board/delete/${detail.seq}'">삭제</button>
+	<button onclick="location.href='/board/delete?seq=${detail.seq}'">삭제</button>
 	<button onclick="location.href='/board/list'">리스트</button>
 </body>
 </html>

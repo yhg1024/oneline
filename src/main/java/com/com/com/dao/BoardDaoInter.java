@@ -9,8 +9,10 @@ public interface BoardDaoInter {
 
 	public List<BoardVO> viewAll();
 	
-	public int boardWrite(BoardVO vo);
+	public void boardWrite(BoardVO vo);
 	
 	public BoardVO detail(int seq);
+	
+	public void delete(int seq);
 
 }

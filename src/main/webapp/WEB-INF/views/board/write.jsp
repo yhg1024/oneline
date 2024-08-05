@@ -6,11 +6,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>biardWrite</title>
+<title>boardWrite</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript"></script>
+
 </head>
 <body>
 	<h1>게시글 작성</h1>
-	<form action="/board/writeProc" name="writeForm" method="post">
+	<form action="/board/write" name="writeForm" method="post">
 		<p>작성자 : <input type="text" name="memName" /></p>
 		<p>ID : <input type="text" name="memId" /></p>
 		<p>제목 : <input type="text" name="title" /></p>

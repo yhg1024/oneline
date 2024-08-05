@@ -23,14 +23,19 @@ public class BoardDaoClass implements BoardDaoInter{
 	}
 
 	@Override
-	public int boardWrite(BoardVO vo) { 
-		return sqlSession.insert("mapper.write", vo);
+	public void boardWrite(BoardVO vo) { 
+		sqlSession.insert("mapper.write", vo); // , 뒤에는 여러개를 못써서 vo에 여러개의 데이터를 넣고 뺴고 쓴다
 	}
 
 	@Override
 	public BoardVO detail(int seq) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.detail", seq);
+	}
+
+	public void delete(int seq) {
+		sqlSession.delete("mapper.delete", seq);
+		
 	} 
 
 	
