@@ -11,12 +11,12 @@
 <body>
 	<h3>수정</h3>
 	
-	<form action="/modify" name="updateForm" method="post">
-		<p>작성자 : <input type="text" name="memName" /></p>
-		<p>ID : <input type="text" name="memId" /></p>
-		<p>제목 : <input type="text" name="title" /></p>
+	<form action="/update" name="updateForm" method="post">
+		<p>작성자 : <input type="text" name="memName" />${update.memName}</p>
+		<p>ID : <input type="text" name="memId" />${update.memId}</p>
+		<p>제목 : <input type="text" name="title" />${update.title}</p>
 		<p>내용 : </p>
-		<div><textarea type="text" name="boardContent"></textarea></div>
+		<div><textarea type="text" name="boardContent">${update.boardContent}</textarea></div>
 		<button type="submit">수정</button>	
 	</form>
 </body>

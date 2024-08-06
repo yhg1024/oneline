@@ -24,7 +24,7 @@ public class MainController {
 	
 	@Autowired
 	private BoardService boardService;
-	
+	private ServiceImpl mBoardService;
 
 	@RequestMapping("/list")
 	public String getAllBoards(Model model) {
@@ -33,15 +33,13 @@ public class MainController {
 		// List<Map<String, Object>> listMap = boardService.getAllBoards();
 		
 	  model.addAttribute("viewAll", list);
-	  return "board/list";
+	  return "/board/list";
 	}
-	
-	ServiceImpl mBoardService;
 	
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String boardWrite() {
 		
-	  return "board/write";
+	  return "/board/write";
 	}
 	
 	@RequestMapping(value="/write")
@@ -56,9 +54,28 @@ public class MainController {
 		return "board/detail";
 	}
 	
+	@RequestMapping(value="/update?seq=${seq}", method=RequestMethod.GET)
+	public String update(Model model, int seq) {
+		model.addAttribute("detail",boardService.detail(seq));
+		return "/board/update";
+	}
+	
+	@RequestMapping("/update")
+	public String update(BoardVO vo) {
+		boardService.update(vo);
+		return "redirect:/board/list";
+	}
+	
 	@RequestMapping("/delete")
 	public String delete(int seq) {
 		boardService.delete(seq);
+		return "redirect:/board/list";
+	}
+	
+	@RequestMapping("/deleteList")
+	public String deleteList(Integer[] seq) {
+		
+		
 		return "redirect:/board/list";
 	}
 	

@@ -15,4 +15,7 @@ public interface BoardService {
 
 	public void delete(int seq);
 
+	public void update(BoardVO vo);
+
+
 }

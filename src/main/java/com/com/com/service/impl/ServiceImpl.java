@@ -36,6 +36,9 @@ public class ServiceImpl implements BoardService {
 	@Override
 	public void delete(int seq) {
 		boardDao.delete(seq);
-		
+	}
+	
+	public void update(BoardVO vo) {
+		boardDao.update(vo);
 	}
 }

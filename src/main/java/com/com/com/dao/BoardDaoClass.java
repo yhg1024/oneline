@@ -36,7 +36,20 @@ public class BoardDaoClass implements BoardDaoInter{
 	public void delete(int seq) {
 		sqlSession.delete("mapper.delete", seq);
 		
+	}
+
+	public BoardVO selectSEQ(int seq) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("map.select", seq);
+	}
+
+	public void update(BoardVO vo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("mapper.update", vo);
 	} 
 
+	public List<BoardVO> deleteList(String[] list) {
+		return sqlSession.selectList("deleteList", list);
+	}
 	
 }

@@ -7,6 +7,16 @@
 <head>
 <meta charset="EUC-KR">
 <title>상세</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('#update').click(function() {
+		var seq = this.
+		alert(seq)
+		$(location).attr("href", "/board/update?seq=")
+	});
+})
+</script>
 </head>
 <body>
 	<h2>게시글 상세페이지</h2>
@@ -17,7 +27,7 @@
 		<div>작성 날짜 : ${detail.regDate}</div>
 		<div>내용 : ${detail.boardContent}</div>
 	</div>
-	<button onclick="loction.href='/board/update/${detail.seq}'">수정</button>
+	<button id="update">수정</button>
 	<button onclick="location.href='/board/delete?seq=${detail.seq}'">삭제</button>
 	<button onclick="location.href='/board/list'">리스트</button>
 </body>
