@@ -29,7 +29,7 @@
 	</insert>
 	
 	<select id="detail" parameterType="int" resultMap="boardList">
-		SELECT SEQ, MEM_NAME, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT 
+		SELECT SEQ, MEM_NAME, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
 			FROM BOARD_STUDY
 		WHERE SEQ = #{seq}
 	</select>	
@@ -38,7 +38,7 @@
 		 UPDATE BOARD_STUDY SET VIEW_CNT = VIEW_CNT + 1 WHERE SEQ = #{seq}
 	</update>
 	
-	<delete id="delete">
+	<delete id="delete" parameterType="int">
         DELETE FROM BOARD_STUDY WHERE SEQ = #{seq}
     </delete>
     
@@ -46,10 +46,10 @@
 		SELECT * FROM BOARD_STUDY WHERE SEQ=#{seq};
 	</select>
 	
-	<update id="update">
+	<update id="update" parameterType="map">
     	UPDATE BOARD_STUDY
     		SET MEM_NAME = #{memName}, MEM_ID = #{memId}, BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}
-    	WHERE  SEQ = #{seq};        	
+    	WHERE  SEQ = #{seq}    	
 	</update>
 	
 	<delete id="deleteList">

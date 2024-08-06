@@ -1,6 +1,7 @@
 package com.com.com.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ public class ServiceImpl implements BoardService {
 	
 	@Autowired
 	private BoardDaoClass boardDao;
-	BoardMapper boardMapper;
 	
 	@Override
 	public List<BoardVO> getAllBoards() {
@@ -24,8 +24,8 @@ public class ServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void insertBoard(BoardVO vo) {
-		boardDao.boardWrite(vo);
+	public void insert(BoardVO vo) {
+		boardDao.write(vo);
 	}
 
 	@Override
@@ -40,5 +40,30 @@ public class ServiceImpl implements BoardService {
 	
 	public void update(BoardVO vo) {
 		boardDao.update(vo);
+	}
+
+	@Override
+	public List<BoardVO> delete(Integer[] list) {
+		return boardDao.deleteList(list);		
+	}
+	
+	/*-------------------------------------------------------------------*/
+
+	@Override
+	public List<Map<String, Object>> listMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return boardDao.boardList(map);
+	}
+
+	@Override
+	public int boardInsert(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return boardDao.boardInsert(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> boardDetail(int seq) {
+		// TODO Auto-generated method stub
+		return boardDao.boardDetail(seq);
 	}
 }

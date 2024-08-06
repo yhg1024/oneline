@@ -9,10 +9,24 @@ public interface BoardDaoInter {
 
 	public List<BoardVO> viewAll();
 	
-	public void boardWrite(BoardVO vo);
+	public void write(BoardVO vo);
 	
 	public BoardVO detail(int seq);
 	
 	public void delete(int seq);
 
+	public void update(BoardVO vo);
+
+	public BoardVO selectSEQ(int seq);
+
+	public List<BoardVO> deleteList(Integer[] list);
+
+	
+	/*-------------------------------------------*/
+	
+	List<Map<String, Object>> boardList(Map<String, Object> map);
+	
+	int boardInsert(Map<String, Object> paramMap);
+	
+	Map<String, Object> boardDetail(int seq);
 }

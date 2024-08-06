@@ -11,9 +11,8 @@
 <script type="text/javascript">
 $(function() {
 	$('#update').click(function() {
-		var seq = this.
-		alert(seq)
-		$(location).attr("href", "/board/update?seq=")
+		var updateValue = $(this).val(); 
+		$(location).attr("href", "/board/update?seq="+updateValue)
 	});
 })
 </script>
@@ -27,7 +26,7 @@ $(function() {
 		<div>작성 날짜 : ${detail.regDate}</div>
 		<div>내용 : ${detail.boardContent}</div>
 	</div>
-	<button id="update">수정</button>
+	<button id="update" value="${detail.seq}">수정</button>
 	<button onclick="location.href='/board/delete?seq=${detail.seq}'">삭제</button>
 	<button onclick="location.href='/board/list'">리스트</button>
 </body>

@@ -8,18 +8,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>boardWrite</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script type="text/javascript"></script>
-
+<script type="text/javascript">
+	$(function() {
+		$("#regBtn").click(function() {
+			/* $(#"writeForm").attr("action", "insert").attr("method", "post").submit(); */
+			$(#"writeForm").attr("action" : "insert", "method" : "post").submit();
+		})
+		$("#uptBtn").click(function() {
+			/* $(#"writeForm").attr("action", "update").attr("method", "post").submit(); */
+			$(#"writeForm").attr("action" : "update", "method" : "post").submit();
+		})
+	})
+</script>
 </head>
 <body>
 	<h1>게시글 작성</h1>
-	<form action="/board/write" name="writeForm" method="post">
-		<p>작성자 : <input type="text" name="memName" /></p>
-		<p>ID : <input type="text" name="memId" /></p>
-		<p>제목 : <input type="text" name="title" /></p>
-		<p>내용 : </p>
-		<div><textarea type="text" name="boardContent"></textarea></div>
-		<button type="submit">등록</button>
+	<form name="writeForm" id="writeForm" method="post">
+		<p>작성자 : <input type="text" name="memName" value="${detailMap.memName}" /></p>
+		<p>ID : <input type="text" name="memId" value="${detailMap.memId}" /></p>
+		<p>제목 : <input type="text" name="title" value="${detailMap.title}" /></p>
+		<p>내용 : <br> <textarea rows="5" cols="30" name="boardContent" value="${detailMap.boardContent}"></textarea></p>
+		<div>
+			<c:when test="${empty detailMap }">
+				<input type="button" name="regBtn" id="regBtn" value="등록">
+			</c:when>
+			<c:otherwise>
+				<input type="button" name="uptBtn" id="uptBtn" value="수정">
+				<input type="hidden" name="seq" id="seq" value="${detailMap.seq}">
+			</c:otherwise>
+			
+			<input type="button" name="canBtn" id="canBtn" value="뒤로가기" onclick="history.go(-1)">
+		</div>
 	</form>
 </body>
 </html>

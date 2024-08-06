@@ -15,4 +15,6 @@ public interface BoardMapper {
 	public void boardWrite(BoardVO board);
 
 	public BoardVO detail(int seq);
+	
+	public void update(BoardVO vo);
 }

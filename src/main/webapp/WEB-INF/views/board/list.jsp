@@ -13,34 +13,52 @@ $(function() {
 	var checkList = [];
 	// 전체 선택 클릭
     $("#selectAll").click(function() {
-    	// #selectAll이 true인지 false인지
-    	const isChecked = this.checked;
-    	// 모든 input[name=list]에 checked  	
-    	if (isChecked) {
-        	$("input[name=list]").prop("checked", isChecked);  
-    	} else {
-        	$("input[name=list]").prop("checked", false);  
-    	}
-    	
-    });
-	
-    $("input[name=list]").change(function() {
-        const cityValue = $(this).val();
-        if ($(this).is(":checked")) {
-        	$("#selectAll").prop("checked", true);       	
-        } else {
-        	$("#selectAll").prop("checked", false); 
-        }
+            const isChecked = this.checked;
+            $("input[name=list]").prop("checked", isChecked);
+            if (isChecked) {
+                // 전체 선택
+                $("input[name=list]:checked").each(function() {
+                    const listValue = $(this).val();             
+                    // 선택된 도시 목록에 지금 선택한 도시들이 없다면 추가
+                    if (!checkList.includes(listValue)) {
+                    	checkList.push(listValue);
+                    }
+                });
+                $("input[name=list]").each(function() {
+                    if (this.checked && !checkList.includes(this.value)) {
+                    	checkList.push(this.value); // 새로 선택된 도시 추가
+                    }
+                });
+            } else {
+                // 전체 선택 해제 시, 모든 도시 제거
+                checkList = [];
+            }
+            deleteList();
+        });
 
-        // 전체 선택 체크 상태 업데이트
-        var totalCnt = $("input[name=list]").length;		  
-        var checkedCnt = $('[name="list"]:checked').length;
-        $("#selectAll").prop("checked", totalCnt === checkedCnt);
-        checkList();
+        $("input[name=list]").change(function() {
+            const listValue = $(this).val();
+            if ($(this).is(":checked")) {
+                if (!checkList.includes(listValue)) {
+                	checkList.push(listValue); // 새로 선택된 도시 추가
+                }
+            } else {
+            	// city와 cityValue(this.val)가 타입과 값이 다른 것을 배열에 담는다. = 지운다
+                checkList = checkList.filter(list => list !== listValue); // 체크 해제된 경우 제거
+            }
+
+            // 전체 선택 체크 상태 업데이트
+            var totalCnt = $("input[name=list]").length;		  
+            var checkedCnt = $('[name="list"]:checked').length;
+            $("#selectAll").prop("checked", totalCnt === checkedCnt);
+            deleteList();     
+        });
         
-        
-        
-    });
+        $('#delete').click(function() {
+    		var deleteList = checkList
+    		alert(deleteList)	
+    		$(location).attr("href", "/board/delete?seq="+deleteList)
+    	});
 })
 </script>
 </head>
@@ -61,14 +79,13 @@ $(function() {
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}</td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.title}</td>
-				<td>${list.regDate}</td>
+				<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${list.uptDate}</td>
 				<td>${list.viewCnt}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
-	<button type="button" onclick="location.href='/board/delete?seq=${list.seq}'">삭제</button>
-
+	<button type="button" id="delete">삭제</button>
 </body>
 </html>

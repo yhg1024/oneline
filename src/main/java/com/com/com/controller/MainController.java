@@ -1,12 +1,14 @@
 package com.com.com.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.com.com.domain.BoardVO;
 import com.com.com.service.BoardService;
@@ -24,7 +26,6 @@ public class MainController {
 	
 	@Autowired
 	private BoardService boardService;
-	private ServiceImpl mBoardService;
 
 	@RequestMapping("/list")
 	public String getAllBoards(Model model) {
@@ -37,30 +38,29 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public String boardWrite() {
+	public String write() {
 		
 	  return "/board/write";
 	}
 	
 	@RequestMapping(value="/write")
-	public String boardWrite(BoardVO vo) throws Exception {
-		boardService.insertBoard(vo);
+	public String write(BoardVO vo) throws Exception {
+		boardService.insert(vo);
 		return "redirect:/board/list";
 	}
 	
 	@RequestMapping("/detail")
-	public String boardDetail(Model model, int seq) {
+	public String detail(Model model, int seq) {
 		model.addAttribute("detail", boardService.detail(seq));
 		return "board/detail";
 	}
 	
-	@RequestMapping(value="/update?seq=${seq}", method=RequestMethod.GET)
-	public String update(Model model, int seq) {
-		model.addAttribute("detail",boardService.detail(seq));
+	@RequestMapping(value="/update", method=RequestMethod.GET)
+	public String update() {
 		return "/board/update";
 	}
 	
-	@RequestMapping("/update")
+	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String update(BoardVO vo) {
 		boardService.update(vo);
 		return "redirect:/board/list";
@@ -73,10 +73,43 @@ public class MainController {
 	}
 	
 	@RequestMapping("/deleteList")
-	public String deleteList(Integer[] seq) {
-		
-		
+	public String deleteList(Integer[] list) {	
+		boardService.delete(list);
 		return "redirect:/board/list";
+	}
+	
+	
+	/*--------------------------------------------------------*/
+	
+	@RequestMapping("boardList")
+	public String boardList(Model model, Map<String, Object> map) {
+		List<Map<String, Object>> listMap = boardService.listMap(map);
+		model.addAttribute("listData", listMap);
+		return "/board/list";
+	}
+	
+	@RequestMapping("boardWrite")
+	public String boardWrite() {
+		return "board/write";
+	}
+	
+	@RequestMapping("boardInsert")
+	public String boardInsert(Map<String, Object> map) {
+		int insert = boardService.boardInsert(map);
+		
+		if (insert == 0) {
+			
+		} else {
+			
+		}
+		return "redirect:board/list";
+	}
+	
+	@RequestMapping("boardDetail")
+	public String boardDetail(@RequestParam("seq") int num, Model model) {
+		Map<String, Object> detailMap = boardService.boardDetail(num);
+		model.addAttribute("detailMap", detailMap);
+		return "board/write";
 	}
 	
 }
