@@ -40,11 +40,10 @@ $(function() {
             const listValue = $(this).val();
             if ($(this).is(":checked")) {
                 if (!checkList.includes(listValue)) {
-                	checkList.push(listValue); // 새로 선택된 도시 추가
+                	checkList.push(listValue); 
                 }
             } else {
-            	// city와 cityValue(this.val)가 타입과 값이 다른 것을 배열에 담는다. = 지운다
-                checkList = checkList.filter(list => list !== listValue); // 체크 해제된 경우 제거
+                checkList = checkList.filter(list => list !== listValue); 
             }
 
             // 전체 선택 체크 상태 업데이트
@@ -55,10 +54,13 @@ $(function() {
         });
         
         $('#delete').click(function() {
-    		var deleteList = checkList
-    		alert(deleteList)	
-    		$(location).attr("href", "/board/delete?seq="+deleteList)
-    	});
+            var deleteList = checkList; 
+
+            deleteList.forEach(function(seq) {
+                $(location).attr("href", "/board/delete?seq=" + seq);
+            });
+        });
+
 })
 </script>
 </head>
