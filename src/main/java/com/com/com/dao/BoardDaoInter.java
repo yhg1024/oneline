@@ -13,13 +13,11 @@ public interface BoardDaoInter {
 	
 	public BoardVO detail(int seq);
 	
+	public void viewCnt(int seq);
+	
 	public void delete(int seq);
 
-	int update(BoardVO vo);
-
-	public BoardVO selectSEQ(int seq);
-
-	public List<BoardVO> deleteList(Integer[] list);
+	public int update(BoardVO vo);
 
 	
 	/*-------------------------------------------*/

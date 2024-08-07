@@ -17,7 +17,7 @@ public interface BoardService {
 
 	public void update(BoardVO vo);
 
-	public List<BoardVO> delete(Integer[] list);
+	public void viewCnt(int seq);
 	
 	/*------------------------------------------------*/
 

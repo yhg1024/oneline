@@ -18,4 +18,6 @@ public interface BoardMapper {
 	public BoardVO detail(int seq);
 	
 	public Map<String, Object> update(BoardVO vo);
+	
+	public void viewCnt(int seq);
 }

@@ -35,14 +35,14 @@ public class BoardDaoClass implements BoardDaoInter{
 	}
 
 	@Override
-	public List<BoardVO> deleteList(Integer[] list) {
-		return sqlSession.selectList("mapper.deleteList", list);
+	public void viewCnt(int seq) {
+		// TODO Auto-generated method stub
+		sqlSession.update("mapper.viewCnt", seq);
 	}
 	
 	@Override
 	public void delete(int seq) {
-		sqlSession.delete("mapper.delete", seq);
-		
+		sqlSession.delete("mapper.delete", seq);		
 	}
 	
 	@Override
@@ -50,12 +50,6 @@ public class BoardDaoClass implements BoardDaoInter{
 		// TODO Auto-generated method stub
 		return sqlSession.update("mapper.update", vo);
 	} 
-
-	@Override
-	public BoardVO selectSEQ(int seq) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("map.select", seq);
-	}
 
 	
 	/*--------------------------------------------------------------*/
@@ -74,6 +68,7 @@ public class BoardDaoClass implements BoardDaoInter{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.detail", num);
 	}
+
 
 	
 

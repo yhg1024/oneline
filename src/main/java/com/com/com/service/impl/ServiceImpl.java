@@ -34,6 +34,12 @@ public class ServiceImpl implements BoardService {
 	}
 
 	@Override
+	public void viewCnt(int seq) {
+		// TODO Auto-generated method stub
+		boardDao.viewCnt(seq);
+	}
+	
+	@Override
 	public void delete(int seq) {
 		boardDao.delete(seq);
 	}
@@ -43,11 +49,6 @@ public class ServiceImpl implements BoardService {
 		boardDao.update(vo);
 	}
 	
-
-	@Override
-	public List<BoardVO> delete(Integer[] list) {
-		return boardDao.deleteList(list);		
-	}
 	
 	/*-------------------------------------------------------------------*/
 
@@ -68,4 +69,6 @@ public class ServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardDao.boardDetail(seq);
 	}
+
+
 }

@@ -82,8 +82,8 @@ $(function() {
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}(${list.memId})</td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.title}</td>
 				<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${list.uptDate}" pattern="yyyy-MM-dd"/></td>
-				<td>${list.viewCnt}</td>
+				<td><fmt:formatDate value="${list.upDate}" pattern="yyyy-MM-dd"/></td>
+				<td><c:out value="${list.viewCnt}"/></td>
 			</tr>
 		</c:forEach>
 	</table>

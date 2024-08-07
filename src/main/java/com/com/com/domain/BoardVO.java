@@ -9,7 +9,7 @@ public class BoardVO {
 	private String title;
 	private String boardContent;
 	private Date regDate;
-	private Date uptDate;
+	private Date upDate;
 	private String viewCnt;
 	private String useYN;
 	public int getSeq() {
@@ -48,11 +48,11 @@ public class BoardVO {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	public Date getUptDate() {
-		return uptDate;
+	public Date getUpDate() {
+		return upDate;
 	}
-	public void setUptDate(Date uptDate) {
-		this.uptDate = uptDate;
+	public void setUpDate(Date upDate) {
+		this.upDate = upDate;
 	}
 	public String getViewCnt() {
 		return viewCnt;

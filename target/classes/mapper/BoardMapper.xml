@@ -11,7 +11,7 @@
  		<result property="title" column="BOARD_SUBJECT"/>
  		<result property="boardContent" column="BOARD_CONTENT"/>
  		<result property="regDate" column="REG_DATE"/>
- 		<result property="uptDate" column="UPT_DATE"/>
+ 		<result property="upDate" column="UPT_DATE"/>
  		<result property="viewCnt" column="VIEW_CNT"/>
  		<result property="useYN" column="USEYN"/>
  	</resultMap> 
@@ -32,9 +32,10 @@
 		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
 			FROM BOARD_STUDY
 		WHERE SEQ = #{seq}
-	</select>	
+	</select>
 	
-	<update id="viewCnt" parameterType="map">
+	<!-- 조회수 -->
+	<update id="viewCnt">
 		 UPDATE BOARD_STUDY SET VIEW_CNT = VIEW_CNT + 1 WHERE SEQ = #{seq}
 	</update>
 	
@@ -48,7 +49,7 @@
 	
 	<update id="update" >
     	UPDATE BOARD_STUDY
-    		SET MEM_NAME = #{memName}, MEM_ID = #{memId}, BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}
+    		SET MEM_NAME = #{memName}, MEM_ID = #{memId}, BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}, UPT_DATE = SYSDATE
     	WHERE  SEQ = #{seq}    	
 	</update>
 	

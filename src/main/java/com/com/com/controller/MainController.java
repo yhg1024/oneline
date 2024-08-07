@@ -52,6 +52,9 @@ public class MainController {
 	@RequestMapping("/detail")
 	public String detail(Model model, int seq) {
 		model.addAttribute("detail", boardService.detail(seq));
+		
+		boardService.viewCnt(seq);
+		
 		return "board/detail";
 	}
 	
@@ -70,12 +73,6 @@ public class MainController {
 	@RequestMapping("/delete")
 	public String delete(int seq) {
 		boardService.delete(seq);
-		return "redirect:/board/list";
-	}
-	
-	@RequestMapping("/deleteList")
-	public String deleteList(Integer[] list) {	
-		boardService.delete(list);
 		return "redirect:/board/list";
 	}
 	
