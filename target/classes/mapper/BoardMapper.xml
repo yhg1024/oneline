@@ -25,7 +25,7 @@
 	
 	<insert id="write" parameterType="map" >
 		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
-			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, NULL, NULL )
+			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, 0, NULL )
 	</insert>
 	
 	<select id="detail" parameterType="int" resultMap="boardList">
