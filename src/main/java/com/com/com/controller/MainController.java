@@ -56,11 +56,12 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update() {
-		return "/board/update";
+	public String update(int seq, Model model) {
+		model.addAttribute("detail", boardService.detail(seq));
+		return "/board/write";
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@RequestMapping("/update")
 	public String update(BoardVO vo) {
 		boardService.update(vo);
 		return "redirect:/board/list";
@@ -81,19 +82,19 @@ public class MainController {
 	
 	/*--------------------------------------------------------*/
 	
-	@RequestMapping("boardList")
+	@RequestMapping("/boardList")
 	public String boardList(Model model, Map<String, Object> map) {
 		List<Map<String, Object>> listMap = boardService.listMap(map);
 		model.addAttribute("listData", listMap);
 		return "/board/list";
 	}
 	
-	@RequestMapping("boardWrite")
+	@RequestMapping("/boardWrite")
 	public String boardWrite() {
 		return "board/write";
 	}
 	
-	@RequestMapping("boardInsert")
+	@RequestMapping("/boardInsert")
 	public String boardInsert(Map<String, Object> map) {
 		int insert = boardService.boardInsert(map);
 		
@@ -105,7 +106,7 @@ public class MainController {
 		return "redirect:board/list";
 	}
 	
-	@RequestMapping("boardDetail")
+	@RequestMapping("/boardDetail")
 	public String boardDetail(@RequestParam("seq") int num, Model model) {
 		Map<String, Object> detailMap = boardService.boardDetail(num);
 		model.addAttribute("detailMap", detailMap);

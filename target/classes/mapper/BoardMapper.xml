@@ -18,7 +18,7 @@
  	
  	<!-- 전체 내용 조회 -->
 	<select id="viewAll" resultMap="boardList">
-	  SELECT SEQ, MEM_NAME, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT 
+	  SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT 
 	  	FROM BOARD_STUDY 
 	  ORDER BY SEQ DESC
 	</select>
@@ -29,12 +29,12 @@
 	</insert>
 	
 	<select id="detail" parameterType="int" resultMap="boardList">
-		SELECT SEQ, MEM_NAME, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
+		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
 			FROM BOARD_STUDY
 		WHERE SEQ = #{seq}
 	</select>	
 	
-	<update id="viewCnt" parameterType="int">
+	<update id="viewCnt" parameterType="map">
 		 UPDATE BOARD_STUDY SET VIEW_CNT = VIEW_CNT + 1 WHERE SEQ = #{seq}
 	</update>
 	
@@ -46,7 +46,7 @@
 		SELECT * FROM BOARD_STUDY WHERE SEQ=#{seq};
 	</select>
 	
-	<update id="update" parameterType="map">
+	<update id="update" >
     	UPDATE BOARD_STUDY
     		SET MEM_NAME = #{memName}, MEM_ID = #{memId}, BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}
     	WHERE  SEQ = #{seq}    	

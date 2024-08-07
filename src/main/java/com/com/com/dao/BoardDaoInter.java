@@ -15,7 +15,7 @@ public interface BoardDaoInter {
 	
 	public void delete(int seq);
 
-	public void update(BoardVO vo);
+	int update(BoardVO vo);
 
 	public BoardVO selectSEQ(int seq);
 

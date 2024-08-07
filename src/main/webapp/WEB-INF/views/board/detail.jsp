@@ -12,7 +12,7 @@
 $(function() {
 	$('#update').click(function() {
 		var updateValue = $(this).val(); 
-		$(location).attr("href", "/board/update?seq="+updateValue)
+		$(location).attr("href", "/board/update?seq="+updateValue) // get ¹æ½Ä
 	});
 })
 </script>

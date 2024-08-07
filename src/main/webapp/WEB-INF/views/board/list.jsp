@@ -77,10 +77,10 @@ $(function() {
 			<tr>
 				<td><input type="checkbox" name="list" class="chk" value="${list.seq}" /></td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
-				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}</td>
+				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}(${list.memId})</td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.title}</td>
 				<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
-				<td>${list.uptDate}</td>
+				<td><fmt:formatDate value="${list.uptDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${list.viewCnt}</td>
 			</tr>
 		</c:forEach>

@@ -1,6 +1,7 @@
 package com.com.com.mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,5 +17,5 @@ public interface BoardMapper {
 
 	public BoardVO detail(int seq);
 	
-	public void update(BoardVO vo);
+	public Map<String, Object> update(BoardVO vo);
 }

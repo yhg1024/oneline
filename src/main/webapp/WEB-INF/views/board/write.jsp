@@ -11,34 +11,33 @@
 <script type="text/javascript">
 	$(function() {
 		$("#regBtn").click(function() {
-			/* $(#"writeForm").attr("action", "insert").attr("method", "post").submit(); */
-			$(#"writeForm").attr("action" : "insert", "method" : "post").submit();
+			$("#writeForm").attr("action", "/board/write").attr("method", "post").submit();
 		})
 		$("#uptBtn").click(function() {
-			/* $(#"writeForm").attr("action", "update").attr("method", "post").submit(); */
-			$(#"writeForm").attr("action" : "update", "method" : "post").submit();
+			$("#writeForm").attr("action", "/board/update").attr("method", "post").submit();
 		})
 	})
 </script>
 </head>
 <body>
+${detail.seq}
 	<h1>게시글 작성</h1>
 	<form name="writeForm" id="writeForm" method="post">
-		<p>작성자 : <input type="text" name="memName" value="${detailMap.memName}" /></p>
-		<p>ID : <input type="text" name="memId" value="${detailMap.memId}" /></p>
-		<p>제목 : <input type="text" name="title" value="${detailMap.title}" /></p>
-		<p>내용 : <br> <textarea rows="5" cols="30" name="boardContent" value="${detailMap.boardContent}"></textarea></p>
-		<div>
-			<c:when test="${empty detailMap }">
+		<p>작성자 : <input type="text" name="memName" value="${detail.memName}" /></p>
+		<p>ID : <input type="text" name="memId" value="${detail.memId}" /></p>
+		<p>제목 : <input type="text" name="title" value="${detail.title}" /></p>
+		<p>내용 : <br> <textarea rows="5" cols="30" name="boardContent">${detail.boardContent}</textarea></p>
+		
+		<c:choose>
+			<c:when test="${empty detail.seq}">
 				<input type="button" name="regBtn" id="regBtn" value="등록">
 			</c:when>
 			<c:otherwise>
 				<input type="button" name="uptBtn" id="uptBtn" value="수정">
-				<input type="hidden" name="seq" id="seq" value="${detailMap.seq}">
+				<input type="hidden" name="seq" id="seq" value="${detail.seq}">
 			</c:otherwise>
-			
-			<input type="button" name="canBtn" id="canBtn" value="뒤로가기" onclick="history.go(-1)">
-		</div>
+		</c:choose>	
+			<input type="button" name="canBtn" id="canBtn" value="뒤로가기" onclick="history.go(-1)">		
 	</form>
 </body>
 </html>
