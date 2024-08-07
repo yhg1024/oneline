@@ -20,11 +20,11 @@ $(function() {
 <body>
 	<h2>게시글 상세페이지</h2>
 	<div>
-		<div>제목 : ${detail.title}</div>
-		<div>글번호 : ${detail.seq}</div>
-		<div>작성자 : ${detail.memName}</div>
-		<div>작성 날짜 : ${detail.regDate}</div>
-		<div>내용 : ${detail.boardContent}</div>
+		<p>제목 : ${detail.title}</p>
+		<p>글번호 : ${detail.seq}</p>
+		<p>작성자 : ${detail.memName}</p>
+		<p>작성 날짜 : <fmt:formatDate value="${detail.regDate}" pattern="yyyy-MM-dd"/></p>
+		<p>내용 : ${detail.boardContent}</p>
 	</div>
 	<button id="update" value="${detail.seq}">수정</button>
 	<button onclick="location.href='/board/delete?seq=${detail.seq}'">삭제</button>
