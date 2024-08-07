@@ -23,8 +23,8 @@
 	  ORDER BY SEQ DESC
 	</select>
 	
-	<insert id="write" parameterType="map" >
-		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
+	<insert id="write">
+		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
 			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, 0, NULL )
 	</insert>
 	
@@ -44,27 +44,14 @@
     </delete>
     
     <select id="select" resultMap="boardList">
-		SELECT * FROM BOARD_STUDY WHERE SEQ=#{seq};
+		SELECT * FROM BOARD_STUDY WHERE SEQ = #{seq}
 	</select>
 	
 	<update id="update" >
     	UPDATE BOARD_STUDY
-    		SET MEM_NAME = #{memName}, MEM_ID = #{memId}, BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}, UPT_DATE = SYSDATE
+    		SET BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}, UPT_DATE = SYSDATE
     	WHERE  SEQ = #{seq}    	
 	</update>
 	
-	<delete id="deleteList">
-    	DELETE FROM BOARD_STUDY
-        	WHERE SEQ = #{seq} IN 
-        <foreach item="item" collection="list" open="(" separator="," close=")">
-            #{delete.seq}
-        </foreach>
-        <!-- collection : 전달받은 인자. List or Array 형태만 가능			
-			item : 전달받은 인자 값을 alias 명으로 대체			
-			open : 구문이 시작될때 삽입할 문자열			
-			close : 구문이 종료될때 삽입할 문자열			
-			separator : 반복 되는 사이에 출력할 문자열			
-			index : 반복되는 구문 번호이다. 0부터 순차적으로 증가 -->
-	</delete>
 </mapper>
   
