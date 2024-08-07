@@ -36,7 +36,7 @@
 	
 	<!-- 조회수 -->
 	<update id="viewCnt">
-		 UPDATE BOARD_STUDY SET VIEW_CNT = VIEW_CNT + 1 WHERE SEQ = #{seq}
+		 UPDATE BOARD_STUDY SET VIEW_CNT = NVL(VIEW_CNT, 0) + 1 WHERE SEQ = #{seq}
 	</update>
 	
 	<delete id="delete" parameterType="int">
