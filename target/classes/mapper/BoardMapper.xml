@@ -53,5 +53,13 @@
     	WHERE  SEQ = #{seq}    	
 	</update>
 	
+	<!-- 페이징 -->
+	<select id="paging" resultMap="boardList">
+		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
+		    FROM (SELECT ROWNUM RNUM, SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
+		        FROM (SELECT * FROM BOARD_STUDY ORDER BY SEQ DESC))
+	    WHERE RNUM BETWEEN #{start} AND #{end};
+	</select>
+	
 </mapper>
   
