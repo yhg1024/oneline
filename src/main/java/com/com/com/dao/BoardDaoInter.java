@@ -18,7 +18,9 @@ public interface BoardDaoInter {
 	public void delete(int seq);
 
 	public int update(BoardVO vo);
-
+	
+	//검색
+	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception;
 	
 	/*-------------------------------------------*/
 	
@@ -27,4 +29,7 @@ public interface BoardDaoInter {
 	int boardInsert(Map<String, Object> paramMap);
 	
 	Map<String, Object> boardDetail(int seq);
+
+
+	
 }

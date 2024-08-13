@@ -23,11 +23,36 @@
 	  ORDER BY SEQ DESC
 	</select>
 	
+	<!-- 검색 -->
+	<select id="search" resultMap="boardList">
+	  SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
+	  	FROM BOARD_STUDY 
+	  WHERE 1=1
+	  	 <if test="startDate != '' and endDate != ''">
+            AND REG_DATE BETWEEN #{startDate} AND #{endDate}
+        </if>
+	  	<choose>
+	  		<when test="searchType == 'memName'">
+	  			AND MEM_NAME LIKE '%'||#{keyword}||'%'
+	  		</when>
+	  		<when test="searchType == 'title'">
+	  			AND BOARD_SUBJECT LIKE '%'||#{keyword}||'%'
+	  		</when>
+	  		<otherwise>
+                AND BOARD_SUBJECT LIKE '%'||#{keyword}||'%'
+                OR BOARD_CONTENT LIKE '%'||#{keyword}||'%'
+            </otherwise>
+	  	</choose>
+	  ORDER BY SEQ DESC
+	</select>
+	
+	<!-- 게시글 작성 -->
 	<insert id="write">
 		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
 			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, 0, NULL )
 	</insert>
 	
+	<!-- 상세보기 -->
 	<select id="detail" parameterType="int" resultMap="boardList">
 		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
 			FROM BOARD_STUDY
@@ -39,6 +64,7 @@
 		 UPDATE BOARD_STUDY SET VIEW_CNT = NVL(VIEW_CNT, 0) + 1 WHERE SEQ = #{seq}
 	</update>
 	
+	<!-- 게시글 삭제 -->
 	<delete id="delete" parameterType="int">
         DELETE FROM BOARD_STUDY WHERE SEQ = #{seq}
     </delete>
@@ -47,6 +73,7 @@
 		SELECT * FROM BOARD_STUDY WHERE SEQ = #{seq}
 	</select>
 	
+	<!-- 게시글 수정 -->
 	<update id="update" >
     	UPDATE BOARD_STUDY
     		SET BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}, UPT_DATE = SYSDATE
@@ -54,11 +81,15 @@
 	</update>
 	
 	<!-- 페이징 -->
+	<select id="totalCount" parameterType="map" resultMap="boardList">
+		SELECT COUNT(*) FROM BOARD_STUDY
+	</select>
+	
 	<select id="paging" resultMap="boardList">
 		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
 		    FROM (SELECT ROWNUM RNUM, SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
 		        FROM (SELECT * FROM BOARD_STUDY ORDER BY SEQ DESC))
-	    WHERE RNUM BETWEEN #{start} AND #{end};
+	    WHERE RNUM BETWEEN #{start} AND #{end}
 	</select>
 	
 </mapper>

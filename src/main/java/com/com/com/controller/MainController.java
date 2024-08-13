@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.com.com.domain.BoardVO;
 import com.com.com.service.BoardService;
-import com.com.com.service.impl.ServiceImpl;
 
 @Controller
 @RequestMapping("/board")
 public class MainController {
-	
 		
 	@RequestMapping("/home")
 	public String main() {
@@ -27,15 +25,25 @@ public class MainController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping("/list")
-	public String getAllBoards(Model model) {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String getAllBoards(Model model,
+		    @RequestParam(value = "searchType",required = false, defaultValue = "") String searchType,
+		    @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword,
+		    @RequestParam(value = "startDate",required = false, defaultValue = "") String startDate,
+		    @RequestParam(value = "endDate",required = false, defaultValue = "") String endDate) throws Exception {
 		List<BoardVO> list = boardService.getAllBoards();
 		
-		// List<Map<String, Object>> listMap = boardService.getAllBoards();
+		List<BoardVO> search = boardService.search(searchType, keyword, startDate, endDate);
+		model.addAttribute("search", search);
+		System.out.println("search는 뭐야" + search);		
+
+		model.addAttribute("viewAll", list);
 		
-	  model.addAttribute("viewAll", list);
+		model.addAttribute("viewAll", search);
+	
 	  return "/board/list";
 	}
+	
 	
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write() {

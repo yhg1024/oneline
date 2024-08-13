@@ -6,11 +6,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.com.com.dao.BoardDaoClass;
 import com.com.com.domain.BoardVO;
 import com.com.com.mapper.BoardMapper;
 import com.com.com.service.BoardService;
+
+import oracle.net.aso.b;
 
 @Service
 public class ServiceImpl implements BoardService {
@@ -49,6 +52,11 @@ public class ServiceImpl implements BoardService {
 		boardDao.update(vo);
 	}
 	
+	// 검색
+	@Override
+	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception {
+	     return  boardDao.search(searchType, keyword, startDate, endDate);
+	}
 	
 	/*-------------------------------------------------------------------*/
 
@@ -69,6 +77,14 @@ public class ServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardDao.boardDetail(seq);
 	}
+
+	@Override
+	public void search(Model model, String type, String keyword) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 
 }

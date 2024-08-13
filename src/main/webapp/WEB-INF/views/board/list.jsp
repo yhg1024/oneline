@@ -65,6 +65,20 @@ $(function() {
 </script>
 </head>
 <body>
+	<form action="/board/list" class="search" method="get">
+		<select name="searchType">
+	        <option value="">선택</option>
+	        <option value="memName">작성자</option>
+	        <option value="title">제목</option>
+	        <option value="title+boardContent">제목+내용</option>
+	    </select>
+	    <input type="text" name="keyword" class="searchInput" type="text" value="">
+	    <input type="submit" class="searchBtn" value="검색"> </br>
+	    <input type="date" name="startDate"/> ~ <input type="date" name="endDate"/>
+    </form>
+    
+	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
+	<button type="button" id="delete">삭제</button>	
 	<table border="1">
 		<tr>
 			<th><input type="checkbox" name="lists" value="selectAll" class="all" id="selectAll"/></th>
@@ -87,7 +101,6 @@ $(function() {
 			</tr>
 		</c:forEach>
 	</table>
-	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
-	<button type="button" id="delete">삭제</button>
+	
 </body>
 </html>

@@ -12,6 +12,15 @@ public class BoardVO {
 	private Date upDate;
 	private String viewCnt;
 	private String useYN;
+	
+	
+	
+	@Override
+	public String toString() {
+		return "BoardVO [seq=" + seq + ", memName=" + memName + ", memId=" + memId + ", title=" + title
+				+ ", boardContent=" + boardContent + ", regDate=" + regDate + ", upDate=" + upDate + ", viewCnt="
+				+ viewCnt + ", useYN=" + useYN + "]";
+	}
 	public int getSeq() {
 		return seq;
 	}

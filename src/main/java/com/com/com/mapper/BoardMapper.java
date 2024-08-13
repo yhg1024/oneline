@@ -20,4 +20,8 @@ public interface BoardMapper {
 	public Map<String, Object> update(BoardVO vo);
 	
 	public void viewCnt(int seq);
+	
+	int getTotalCount();
+	
+	List<BoardVO> findBoards(int offset, int limit);
 }

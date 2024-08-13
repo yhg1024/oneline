@@ -1,13 +1,14 @@
 package com.com.com.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 
 import com.com.com.domain.BoardVO;
 
@@ -50,8 +51,19 @@ public class BoardDaoClass implements BoardDaoInter{
 		// TODO Auto-generated method stub
 		return sqlSession.update("mapper.update", vo);
 	} 
-
 	
+	// 검색
+	@Override
+	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception {
+
+		HashMap<String, Object> data = new HashMap<String, Object>();
+	    data.put("searchType", searchType);
+	    data.put("keyword", keyword);
+	    data.put("startDate", startDate);
+	    data.put("endDate", endDate);
+
+	    return sqlSession.selectList("mapper.search", data);
+	}
 	/*--------------------------------------------------------------*/
 
 	public List<Map<String, Object>> boardList(Map<String, Object> map) {
@@ -67,6 +79,11 @@ public class BoardDaoClass implements BoardDaoInter{
 	public Map<String, Object> boardDetail(int num) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.detail", num);
+	}
+
+	public void search(Model model, String type, String keyword) {
+		// TODO Auto-generated method stub
+		sqlSession.selectList("mapper.search");
 	}
 
 
