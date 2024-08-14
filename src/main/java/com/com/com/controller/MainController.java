@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.com.com.domain.BoardVO;
+import com.com.com.domain.PageVO;
 import com.com.com.service.BoardService;
 
 @Controller
@@ -27,20 +28,39 @@ public class MainController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getAllBoards(Model model,
-		    @RequestParam(value = "searchType",required = false, defaultValue = "") String searchType,
-		    @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword,
-		    @RequestParam(value = "startDate",required = false, defaultValue = "") String startDate,
-		    @RequestParam(value = "endDate",required = false, defaultValue = "") String endDate) throws Exception {
-		List<BoardVO> list = boardService.getAllBoards();
+		    @RequestParam(value = "searchType",required = false) String searchType,
+		    @RequestParam(value = "keyword",required = false) String keyword,
+		    @RequestParam(value = "startDate",required = false) String startDate,
+		    @RequestParam(value = "endDate",required = false) String endDate,
+		    PageVO vo,
+		    @RequestParam(value="nowPage", required=false)String nowPage,
+			@RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception {
 		
+		// 전체 목록
+		List<BoardVO> list = boardService.getAllBoards();	
+		model.addAttribute("viewAll", list);		
+		
+		// 검색
 		List<BoardVO> search = boardService.search(searchType, keyword, startDate, endDate);
-		model.addAttribute("search", search);
-		System.out.println("search는 뭐야" + search);		
-
-		model.addAttribute("viewAll", list);
-		
+		model.addAttribute("search", search);		
 		model.addAttribute("viewAll", search);
-	
+		
+		// 페이지네이션
+		Integer total = boardService.totalCount();
+		
+		System.out.println("총 갯수" + total);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+		vo = new PageVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("pagination", vo);
+		model.addAttribute("viewAll", boardService.pagination(vo));
+		
 	  return "/board/list";
 	}
 	

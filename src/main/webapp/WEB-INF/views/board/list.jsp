@@ -101,6 +101,23 @@ $(function() {
 			</tr>
 		</c:forEach>
 	</table>
-	
+	<div class="pagination">		
+		<c:if test="${pagination.startPage != 1 }">
+			<a href="/board/list?nowPage=${pagination.startPage - 1 }&cntPerPage=${pagination.cntPerPage}">이전</a>
+		</c:if>
+		<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="p">
+			<c:choose>
+				<c:when test="${p == pagination.nowPage }">
+					<b>${p }</b>
+				</c:when>
+				<c:when test="${p != pagination.nowPage }">
+					<a href="/board/list?nowPage=${p }&cntPerPage=${pagination.cntPerPage}">${p }</a>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${pagination.endPage != pagination.lastPage}">
+			<a href="/board/list?nowPage=${pagination.endPage+1 }&cntPerPage=${pagination.cntPerPage}">다음</a>
+		</c:if>
+	</div>
 </body>
 </html>

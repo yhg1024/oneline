@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.com.com.domain.BoardVO;
+import com.com.com.domain.PageVO;
 
 public interface BoardDaoInter {
 
@@ -21,6 +22,12 @@ public interface BoardDaoInter {
 	
 	//검색
 	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception;
+	
+	// 페이지네이션
+	public Integer totalCount();
+	
+	public List<BoardVO> pagination(PageVO vo);
+	
 	
 	/*-------------------------------------------*/
 	

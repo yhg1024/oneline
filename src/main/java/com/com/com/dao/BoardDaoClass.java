@@ -11,12 +11,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
 import com.com.com.domain.BoardVO;
+import com.com.com.domain.PageVO;
 
 @Repository("dao")
 public class BoardDaoClass implements BoardDaoInter{
 	
 	@Inject
 	public SqlSessionTemplate sqlSession;
+	// DAO클래스에 직접 SqlSession객체를선언하고 @Autowired로 의존주입하여 쿼리문을 수행 하는 방식
+	
+	// List selectList(query_id)	id에 대한 select문을 실행한 후 레코드를 List로 반환합니다.
+	// List selectList(query_id, '조건')	id에 대한 select문을 실행하면서 조건(쿼리문에서 사용할 인자)를 전달합니다.
+	// T selectOne(query_id)	id에 대한 select문을 실행한 후 한개의 레코드를 지정한 타입으로 반환합니다.
+	// T selectOne(query_id, '조건')	id에 대한 select문을 실행하면서 조건(쿼리문에서 사용할 인자)를 전달합니다. 
 
 	@Override
 	public List<BoardVO> viewAll() {
@@ -31,13 +38,11 @@ public class BoardDaoClass implements BoardDaoInter{
 
 	@Override
 	public BoardVO detail(int seq) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.detail", seq);
 	}
 
 	@Override
 	public void viewCnt(int seq) {
-		// TODO Auto-generated method stub
 		sqlSession.update("mapper.viewCnt", seq);
 	}
 	
@@ -48,7 +53,6 @@ public class BoardDaoClass implements BoardDaoInter{
 	
 	@Override
 	public int update(BoardVO vo) {
-		// TODO Auto-generated method stub
 		return sqlSession.update("mapper.update", vo);
 	} 
 	
@@ -64,27 +68,32 @@ public class BoardDaoClass implements BoardDaoInter{
 
 	    return sqlSession.selectList("mapper.search", data);
 	}
+
+	// 페이지네이션
+	@Override
+	public Integer totalCount() {
+		return sqlSession.selectOne("mapper.totalCount");
+	}
+
+	@Override
+	public List<BoardVO> pagination(PageVO vo) {
+		return sqlSession.selectList("mapper.pagination", vo);
+	}
 	/*--------------------------------------------------------------*/
 
 	public List<Map<String, Object>> boardList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.viewAll");
 	}
 
 	public int boardInsert(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.insert("mapper.insert", map);
 	}
 
 	public Map<String, Object> boardDetail(int num) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.detail", num);
 	}
 
-	public void search(Model model, String type, String keyword) {
-		// TODO Auto-generated method stub
-		sqlSession.selectList("mapper.search");
-	}
+
 
 
 	

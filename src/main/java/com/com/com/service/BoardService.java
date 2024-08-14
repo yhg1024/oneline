@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.ui.Model;
 
 import com.com.com.domain.BoardVO;
+import com.com.com.domain.PageVO;
 
 public interface BoardService {
 		
@@ -21,6 +22,15 @@ public interface BoardService {
 
 	public void viewCnt(int seq);
 
+	// 검색
+	List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception;
+	
+	// 게시물 총 갯수
+	public Integer totalCount();
+	
+	// 페이징 처리 게시글 조회
+	public List<BoardVO> pagination(PageVO vo);
+	
 	/*------------------------------------------------*/
 
 	public List<Map<String, Object>> listMap(Map<String, Object> map);
@@ -29,9 +39,8 @@ public interface BoardService {
 
 	public Map<String, Object> boardDetail(int num);
 
-	public void search(Model model, String type, String keyword);
 
-	List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception;
+
 
 
 

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 
 import com.com.com.dao.BoardDaoClass;
 import com.com.com.domain.BoardVO;
+import com.com.com.domain.PageVO;
 import com.com.com.mapper.BoardMapper;
 import com.com.com.service.BoardService;
 
@@ -58,6 +59,15 @@ public class ServiceImpl implements BoardService {
 	     return  boardDao.search(searchType, keyword, startDate, endDate);
 	}
 	
+	@Override
+	public Integer totalCount() {
+		return boardDao.totalCount();
+	}
+
+	@Override
+	public List<BoardVO> pagination(PageVO vo) {
+		return boardDao.pagination(vo);
+	}
 	/*-------------------------------------------------------------------*/
 
 	@Override
@@ -78,11 +88,8 @@ public class ServiceImpl implements BoardService {
 		return boardDao.boardDetail(seq);
 	}
 
-	@Override
-	public void search(Model model, String type, String keyword) {
-		// TODO Auto-generated method stub
-		
-	}
+
+	
 
 	
 

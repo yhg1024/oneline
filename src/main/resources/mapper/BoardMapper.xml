@@ -15,6 +15,7 @@
  		<result property="viewCnt" column="VIEW_CNT"/>
  		<result property="useYN" column="USEYN"/>
  	</resultMap> 
+ 
  	
  	<!-- 전체 내용 조회 -->
 	<select id="viewAll" resultMap="boardList">
@@ -29,18 +30,18 @@
 	  	FROM BOARD_STUDY 
 	  WHERE 1=1
 	  	 <if test="startDate != '' and endDate != ''">
-            AND REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND REG_DATE BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR}
         </if>
 	  	<choose>
 	  		<when test="searchType == 'memName'">
-	  			AND MEM_NAME LIKE '%'||#{keyword}||'%'
+	  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
 	  		</when>
 	  		<when test="searchType == 'title'">
-	  			AND BOARD_SUBJECT LIKE '%'||#{keyword}||'%'
+	  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
 	  		</when>
 	  		<otherwise>
-                AND BOARD_SUBJECT LIKE '%'||#{keyword}||'%'
-                OR BOARD_CONTENT LIKE '%'||#{keyword}||'%'
+                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
             </otherwise>
 	  	</choose>
 	  ORDER BY SEQ DESC
@@ -81,11 +82,11 @@
 	</update>
 	
 	<!-- 페이징 -->
-	<select id="totalCount" parameterType="map" resultMap="boardList">
+	<select id="totalCount" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD_STUDY
 	</select>
 	
-	<select id="paging" resultMap="boardList">
+	<select id="pagination" resultMap="boardList">
 		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
 		    FROM (SELECT ROWNUM RNUM, SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
 		        FROM (SELECT * FROM BOARD_STUDY ORDER BY SEQ DESC))
