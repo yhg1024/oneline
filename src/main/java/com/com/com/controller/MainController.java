@@ -34,21 +34,17 @@ public class MainController {
 		    @RequestParam(value = "endDate",required = false) String endDate,
 		    PageVO vo,
 		    @RequestParam(value="nowPage", required=false)String nowPage,
-			@RequestParam(value="cntPerPage", required=false)String cntPerPage) throws Exception {
+			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
+			@RequestParam(value="listCount", required=false)String listCount) throws Exception {
 		
 		// 전체 목록
-		List<BoardVO> list = boardService.getAllBoards();	
-		model.addAttribute("viewAll", list);		
+		// List<BoardVO> list = boardService.getAllBoards();	
+		// model.addAttribute("viewAll", list);		
 		
-		// 검색
-		List<BoardVO> search = boardService.search(searchType, keyword, startDate, endDate);
-		model.addAttribute("search", search);		
-		model.addAttribute("viewAll", search);
 		
 		// 페이지네이션
 		Integer total = boardService.totalCount();
 		
-		System.out.println("총 갯수" + total);
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
 			cntPerPage = "10";
@@ -56,11 +52,25 @@ public class MainController {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
 			cntPerPage = "10";
-		}
+		}		
+
 		vo = new PageVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		model.addAttribute("pagination", vo);
-		model.addAttribute("viewAll", boardService.pagination(vo));
 		
+
+		System.out.println("vo = " + vo);
+		
+		List<BoardVO> list = boardService.list(searchType, keyword, startDate, endDate, vo);
+
+		model.addAttribute("list", list);
+
+		System.out.println("searchType = " + searchType);
+		System.out.println("keyword = " + keyword);
+		System.out.println("startDate = " + startDate);
+		System.out.println("endDate = " + endDate);
+		System.out.println("nowPage = " + nowPage);
+		System.out.println("cntPerPage = " + cntPerPage);
+		System.out.println("list = " + list);	
+
 	  return "/board/list";
 	}
 	

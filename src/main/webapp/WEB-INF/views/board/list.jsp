@@ -75,6 +75,12 @@ $(function() {
 	    <input type="text" name="keyword" class="searchInput" type="text" value="">
 	    <input type="submit" class="searchBtn" value="검색"> </br>
 	    <input type="date" name="startDate"/> ~ <input type="date" name="endDate"/>
+	    <select name="listCount">
+	        <option value="10">10</option>
+	        <option value="30">30</option>
+	        <option value="50">50</option>
+	        <option value="100">100</option>
+	    </select>
     </form>
     
 	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
@@ -89,7 +95,7 @@ $(function() {
 			<th>수정일</th>
 			<th>조회수</th>
 		</tr> 
-		<c:forEach items="${viewAll}" var="list" begin="0" end="10"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
+		<c:forEach items="${list}" var="list" begin="0" end="10"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
 			<tr>
 				<td><input type="checkbox" name="list" class="chk" value="${list.seq}" /></td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
@@ -103,7 +109,7 @@ $(function() {
 	</table>
 	<div class="pagination">		
 		<c:if test="${pagination.startPage != 1 }">
-			<a href="/board/list?nowPage=${pagination.startPage - 1 }&cntPerPage=${pagination.cntPerPage}">이전</a>
+			<span onclick="location.href='/board/list?nowPage=${pagination.startPage - 1 }&cntPerPage=${pagination.cntPerPage}'">이전</span>
 		</c:if>
 		<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="p">
 			<c:choose>
@@ -111,12 +117,12 @@ $(function() {
 					<b>${p }</b>
 				</c:when>
 				<c:when test="${p != pagination.nowPage }">
-					<a href="/board/list?nowPage=${p }&cntPerPage=${pagination.cntPerPage}">${p }</a>
+					<span onclick="location.href='/board/list?nowPage=${p }&cntPerPage=${pagination.cntPerPage}'">${p }</span>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${pagination.endPage != pagination.lastPage}">
-			<a href="/board/list?nowPage=${pagination.endPage+1 }&cntPerPage=${pagination.cntPerPage}">다음</a>
+			<span onclick="location.href='/board/list?nowPage=${pagination.endPage+1 }&cntPerPage=${pagination.cntPerPage}'">다음</span>
 		</c:if>
 	</div>
 </body>

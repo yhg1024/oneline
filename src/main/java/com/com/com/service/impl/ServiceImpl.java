@@ -23,8 +23,10 @@ public class ServiceImpl implements BoardService {
 	private BoardDaoClass boardDao;
 	
 	@Override
-	public List<BoardVO> getAllBoards() {
-		return boardDao.viewAll();
+	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo)  throws Exception{
+
+	    System.out.println("ServiceImpl = " + searchType);
+		return boardDao.list(searchType, keyword, startDate, endDate, vo);
 	}
 
 	@Override
@@ -53,21 +55,12 @@ public class ServiceImpl implements BoardService {
 		boardDao.update(vo);
 	}
 	
-	// 검색
-	@Override
-	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception {
-	     return  boardDao.search(searchType, keyword, startDate, endDate);
-	}
 	
 	@Override
 	public Integer totalCount() {
 		return boardDao.totalCount();
 	}
 
-	@Override
-	public List<BoardVO> pagination(PageVO vo) {
-		return boardDao.pagination(vo);
-	}
 	/*-------------------------------------------------------------------*/
 
 	@Override

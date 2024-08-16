@@ -10,6 +10,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.com.com.domain.BoardVO;
 import com.com.com.domain.PageVO;
 
@@ -26,9 +29,19 @@ public class BoardDaoClass implements BoardDaoInter{
 	// T selectOne(query_id, '조건')	id에 대한 select문을 실행하면서 조건(쿼리문에서 사용할 인자)를 전달합니다. 
 
 	@Override
-	public List<BoardVO> viewAll() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.viewAll");
+	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception{
+
+		HashMap<String, Object> data = new HashMap<String, Object>();
+	    data.put("searchType", searchType);
+	    data.put("keyword", keyword);
+	    data.put("startDate", startDate);
+	    data.put("endDate", endDate);
+	    data.put("start", vo.getStart());
+	    data.put("end", vo.getEnd());
+	    
+	    System.out.println("BoardDaoClass = " + data);
+	    
+		return sqlSession.selectList("mapper.list", data);
 	}
 
 	@Override
@@ -56,29 +69,12 @@ public class BoardDaoClass implements BoardDaoInter{
 		return sqlSession.update("mapper.update", vo);
 	} 
 	
-	// 검색
-	@Override
-	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception {
-
-		HashMap<String, Object> data = new HashMap<String, Object>();
-	    data.put("searchType", searchType);
-	    data.put("keyword", keyword);
-	    data.put("startDate", startDate);
-	    data.put("endDate", endDate);
-
-	    return sqlSession.selectList("mapper.search", data);
-	}
-
 	// 페이지네이션
 	@Override
 	public Integer totalCount() {
 		return sqlSession.selectOne("mapper.totalCount");
 	}
-
-	@Override
-	public List<BoardVO> pagination(PageVO vo) {
-		return sqlSession.selectList("mapper.pagination", vo);
-	}
+	
 	/*--------------------------------------------------------------*/
 
 	public List<Map<String, Object>> boardList(Map<String, Object> map) {

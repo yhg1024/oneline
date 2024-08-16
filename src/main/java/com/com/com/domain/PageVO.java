@@ -9,7 +9,7 @@ public class PageVO {
 	private int cntPerPage; // 페이지당 글 갯수
 	private int start; // 쿼리 start
 	private int end; // 쿼리 end
-	private int cntPage = 10;
+	private int cntPage = 10; // 몇개의 페이지를 보일지
 
 	
 	
@@ -23,6 +23,7 @@ public class PageVO {
 		calcStartEndPage(getNowPage(), cntPage);
 		calcStartEnd(getNowPage(), getCntPerPage());
 	}
+	
 	// 제일 마지막 페이지 계산
 	public void calcLastPage(int total, int cntPerPage) {
 		setLastPage((int) Math.ceil((double)total / (double)cntPerPage));
@@ -98,6 +99,13 @@ public class PageVO {
 	}
 	public void setCntPage(int cntPage) {
 		this.cntPage = cntPage;
+	}
+	
+	@Override
+	public String toString() {
+		return "PageVO [totalCount=" + totalCount + ", nowPage=" + nowPage + ", startPage=" + startPage + ", lastPage="
+				+ lastPage + ", endPage=" + endPage + ", cntPerPage=" + cntPerPage + ", start=" + start + ", end=" + end
+				+ ", cntPage=" + cntPage + "]";
 	}
 	
 }

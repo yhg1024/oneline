@@ -8,7 +8,7 @@ import com.com.com.domain.PageVO;
 
 public interface BoardDaoInter {
 
-	public List<BoardVO> viewAll();
+	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception;
 	
 	public void write(BoardVO vo);
 	
@@ -20,13 +20,8 @@ public interface BoardDaoInter {
 
 	public int update(BoardVO vo);
 	
-	//검색
-	public List<BoardVO> search(String searchType, String keyword, String startDate, String endDate) throws Exception;
-	
 	// 페이지네이션
 	public Integer totalCount();
-	
-	public List<BoardVO> pagination(PageVO vo);
 	
 	
 	/*-------------------------------------------*/
