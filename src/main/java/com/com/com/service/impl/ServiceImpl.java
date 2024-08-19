@@ -25,7 +25,6 @@ public class ServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate)  throws Exception{
 
-	    System.out.println("ServiceImpl = " + boardDao.list(searchType, keyword, startDate, endDate));
 		return boardDao.list(searchType, keyword, startDate, endDate);
 	}
 

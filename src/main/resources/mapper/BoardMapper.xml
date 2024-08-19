@@ -40,7 +40,6 @@
 	            </otherwise>
 		  	</choose>
 	  	</if>
-	  	AND RNUM BETWEEN #{start, jdbcType=VARCHAR} AND #{end, jdbcType=VARCHAR}
 	  ORDER BY SEQ DESC
 	</select>
 	
