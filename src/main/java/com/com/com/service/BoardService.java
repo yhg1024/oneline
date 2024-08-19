@@ -10,7 +10,7 @@ import com.com.com.domain.PageVO;
 
 public interface BoardService {
 		
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception;
+	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate) throws Exception;
 
 	public void insert(BoardVO vo);
 

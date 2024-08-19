@@ -58,8 +58,8 @@ public class MainController {
 		
 
 		System.out.println("vo = " + vo);
-		
-		List<BoardVO> list = boardService.list(searchType, keyword, startDate, endDate, vo);
+		model.addAttribute("pagination", vo);
+		List<BoardVO> list = boardService.list(searchType, keyword, startDate, endDate);
 
 		model.addAttribute("list", list);
 
