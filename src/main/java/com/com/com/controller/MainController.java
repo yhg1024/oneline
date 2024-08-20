@@ -75,7 +75,6 @@ public class MainController {
 		
 		model.addAttribute("list", list);
 		System.out.println("list = " + list);
-		System.out.println("searchType = " + searchType);
 
 	  return "/board/list";
 	}

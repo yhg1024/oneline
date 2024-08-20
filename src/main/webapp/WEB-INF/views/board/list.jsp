@@ -65,9 +65,9 @@ $(function() {
 
 function fncPageClick(nowPage, cntPerPage){
 	
-	$("#nowPage").val(nowPage);
-	$("#cntPerPage").val(cntPerPage);
-	$(".searchBtn").click();
+		$("#nowPage").val(nowPage);
+		$("#cntPerPage").val(cntPerPage);
+		$(".searchBtn").click();
 }
 </script>
 </head>
@@ -78,13 +78,13 @@ function fncPageClick(nowPage, cntPerPage){
 	 
  		<select name="searchType">
 	        <option value="">선택</option>
-	        <option value="memName">작성자</option>
-	        <option value="title">제목</option>
+	        <option value="memName" ${param.searchType == 'memName' ? 'selected' : ''}>작성자</option>
+	        <option value="title" ${param.searchType == 'title' ? 'selected' : ''}>제목</option>
 	        <option value="title+boardContent">제목+내용</option>
 	    </select>
 	    <input type="text" name="keyword" class="searchInput" type="text" value="${param.keyword}">
 	    <input type="submit" class="searchBtn" value="검색"> <br/>
-	    <input type="date" name="startDate"/> ~ <input type="date" name="endDate"/>
+	    <input type="date" name="startDate"  value="${param.startDate}" /> ~ <input type="date" name="endDate"  value="${param.endDate}" />
 	    <select name="cntPerPage">
 	        <option value="10" ${pageVO.cntPerPage eq 10 ? 'selected' : '' }>10</option>
 	        <option value="30" ${pageVO.cntPerPage eq 30 ? 'selected' : '' }>30</option>
@@ -127,7 +127,7 @@ function fncPageClick(nowPage, cntPerPage){
 		<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="p">
 			<c:choose>
 				<c:when test="${p == pagination.nowPage }">
-					<b>${p }</b>
+					<b>${p}</b>
 				</c:when>
 				<c:when test="${p != pagination.nowPage }">
 					<span class="page" onclick="fncPageClick('${p }', '${pagination.cntPerPage}')">${p }</span>
@@ -135,10 +135,10 @@ function fncPageClick(nowPage, cntPerPage){
 			</c:choose>
 		</c:forEach>
 		<c:if test="${pagination.endPage != pagination.lastPage}">
-			<span onclick="location.href='/board/list?nowPage=${pagination.endPage+1 }&cntPerPage=${pagination.cntPerPage}'">다음</span>
+			<span onclick="fncPageClick('${pagination.endPage+1 }', '${pagination.cntPerPage}')">다음</span>
 		</c:if>
 		<c:if test="${pagination.lastPage > 10 and pagination.nowPage != pagination.lastPage }">
-			<span onclick="location.href='/board/list?nowPage=${pagination.lastPage}&cntPerPage=${pagination.cntPerPage}'">맨뒤</span>
+			<span onclick="fncPageClick('${pagination.lastPage}', '${pagination.cntPerPage}')">맨뒤</span>
 		</c:if>
 	</div>
 </body>
