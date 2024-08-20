@@ -82,7 +82,7 @@ function fncPageClick(nowPage, cntPerPage){
 	        <option value="title">제목</option>
 	        <option value="title+boardContent">제목+내용</option>
 	    </select>
-	    <input type="text" name="keyword" class="searchInput" type="text" value="">
+	    <input type="text" name="keyword" class="searchInput" type="text" value="${param.keyword}">
 	    <input type="submit" class="searchBtn" value="검색"> <br/>
 	    <input type="date" name="startDate"/> ~ <input type="date" name="endDate"/>
 	    <select name="cntPerPage">
