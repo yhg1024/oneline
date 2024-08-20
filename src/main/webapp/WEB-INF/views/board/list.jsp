@@ -62,24 +62,34 @@ $(function() {
         });
 
 })
+
+function fncPageClick(nowPage, cntPerPage){
+	
+	$("#nowPage").val(nowPage);
+	$("#cntPerPage").val(cntPerPage);
+	$(".searchBtn").click();
+}
 </script>
 </head>
 <body>
-	<form action="/board/list" class="search" method="get">
-		<select name="searchType">
+	<form action="/board/list" class="search" method="post">
+		<input type = "hidden" name = "nowPage"  id = "nowPage" value = "1">
+		<input type = "hidden" name = "cntPerPage"  id = "cntPerPage" value = "10">
+	 
+ 		<select name="searchType">
 	        <option value="">선택</option>
 	        <option value="memName">작성자</option>
 	        <option value="title">제목</option>
 	        <option value="title+boardContent">제목+내용</option>
 	    </select>
 	    <input type="text" name="keyword" class="searchInput" type="text" value="">
-	    <input type="submit" class="searchBtn" value="검색"> </br>
+	    <input type="submit" class="searchBtn" value="검색"> <br/>
 	    <input type="date" name="startDate"/> ~ <input type="date" name="endDate"/>
-	    <select name="listCount">
-	        <option value="10">10</option>
-	        <option value="30">30</option>
-	        <option value="50">50</option>
-	        <option value="100">100</option>
+	    <select name="cntPerPage">
+	        <option value="10" ${pageVO.cntPerPage eq 10 ? 'selected' : '' }>10</option>
+	        <option value="30" ${pageVO.cntPerPage eq 30 ? 'selected' : '' }>30</option>
+	        <option value="50" ${pageVO.cntPerPage eq 50 ? 'selected' : '' }>50</option>
+	        <option value="100" ${pageVO.cntPerPage eq 100 ? 'selected' : '' }>100</option>
 	    </select>
     </form>
     
@@ -95,7 +105,7 @@ $(function() {
 			<th>수정일</th>
 			<th>조회수</th>
 		</tr> 
-		<c:forEach items="${list}" var="list" begin="0" end="10"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
+		<c:forEach items="${list}" var="list"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
 			<tr>
 				<td><input type="checkbox" name="list" class="chk" value="${list.seq}" /></td>
 				<td onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
@@ -107,9 +117,12 @@ $(function() {
 			</tr>
 		</c:forEach>
 	</table>
-	<div class="pagination">		
+	<div class="pagination">	
+		<c:if test="${pagination.nowPage >= 11 }">
+			<span onclick="fncPageClick('1', ${pagination.cntPerPage})">맨앞</span>
+		</c:if>	
 		<c:if test="${pagination.startPage != 1 }">
-			<span onclick="location.href='/board/list?nowPage=${pagination.startPage - 1 }&cntPerPage=${pagination.cntPerPage}'">이전</span>
+			<span onclick="fncPageClick(${pagination.startPage - 1 }, ${pagination.cntPerPage}) ">이전</span>
 		</c:if>
 		<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="p">
 			<c:choose>
@@ -117,12 +130,15 @@ $(function() {
 					<b>${p }</b>
 				</c:when>
 				<c:when test="${p != pagination.nowPage }">
-					<span onclick="location.href='/board/list?nowPage=${p }&cntPerPage=${pagination.cntPerPage}'">${p }</span>
+					<span class="page" onclick="fncPageClick('${p }', '${pagination.cntPerPage}')">${p }</span>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${pagination.endPage != pagination.lastPage}">
 			<span onclick="location.href='/board/list?nowPage=${pagination.endPage+1 }&cntPerPage=${pagination.cntPerPage}'">다음</span>
+		</c:if>
+		<c:if test="${pagination.lastPage > 10 and pagination.nowPage != pagination.lastPage }">
+			<span onclick="location.href='/board/list?nowPage=${pagination.lastPage}&cntPerPage=${pagination.cntPerPage}'">맨뒤</span>
 		</c:if>
 	</div>
 </body>

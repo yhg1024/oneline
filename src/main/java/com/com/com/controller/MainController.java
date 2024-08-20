@@ -1,5 +1,7 @@
 package com.com.com.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -26,50 +28,54 @@ public class MainController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list")
 	public String getAllBoards(Model model,
-		    @RequestParam(value = "searchType",required = false) String searchType,
-		    @RequestParam(value = "keyword",required = false) String keyword,
-		    @RequestParam(value = "startDate",required = false) String startDate,
-		    @RequestParam(value = "endDate",required = false) String endDate,
+//		    @RequestParam(value = "searchType",required = false) String searchType,
+//		    @RequestParam(value = "keyword",required = false) String keyword,
+//		    @RequestParam(value = "startDate",required = false) String startDate,
+//		    @RequestParam(value = "endDate",required = false) String endDate,
 		    PageVO vo,
-		    @RequestParam(value="nowPage", required=false)String nowPage,
-			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
-			@RequestParam(value="listCount", required=false)String listCount) throws Exception {
+//		    @RequestParam(value="nowPage", required=false)Integer nowPage,
+//			@RequestParam(value="cntPerPage", required=false)Integer cntPerPage
+		    @RequestParam Map<String, Object> map
+			) throws Exception {
 		
 		// 전체 목록
 		// List<BoardVO> list = boardService.getAllBoards();	
 		// model.addAttribute("viewAll", list);		
 		
-		
+		int nowPage = map.get("nowPage") == null ? 1 : Integer.parseInt(map.get("nowPage").toString()) ;
+		int cntPerPage = map.get("cntPerPage") == null ? 10 : Integer.parseInt(map.get("cntPerPage").toString()) ;
+		String searchType = map.get("searchType") == null ? "" : map.get("searchType").toString();
+		String keyword = map.get("keyword") == null ? "" : map.get("keyword").toString();
+		String startDate = map.get("startDate") == null ? "" : map.get("startDate").toString();
+		String endDate = map.get("endDate") == null ? "" : map.get("endDate").toString();
+		 
 		// 페이지네이션
-		Integer total = boardService.totalCount();
+		Integer total = boardService.totalCount(searchType, keyword, startDate, endDate, vo);
 		
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "10";
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) {
-			cntPerPage = "10";
-		}		
+		
+		
+//		if (nowPage == null && cntPerPage == null) {
+//			nowPage = "1";
+//			cntPerPage = "10";
+//		} else if (nowPage == null) {
+//			nowPage = "1";
+//		} else if (cntPerPage == null) {
+//			cntPerPage = "10";
+//		}		
 
-		vo = new PageVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		vo = new PageVO(total, nowPage, cntPerPage);
 		
 
 		System.out.println("vo = " + vo);
 		model.addAttribute("pagination", vo);
 		
-		List<BoardVO> list = boardService.list(searchType, keyword, startDate, endDate);
+		List<BoardVO> list = boardService.list(searchType, keyword, startDate, endDate, vo);
+		
 		model.addAttribute("list", list);
-
+		System.out.println("list = " + list);
 		System.out.println("searchType = " + searchType);
-		System.out.println("keyword = " + keyword);
-		System.out.println("startDate = " + startDate);
-		System.out.println("endDate = " + endDate);
-		System.out.println("nowPage = " + nowPage);
-		System.out.println("cntPerPage = " + cntPerPage);
-		System.out.println("list = " + list);	
 
 	  return "/board/list";
 	}
@@ -139,6 +145,20 @@ public class MainController {
 			
 		}
 		return "redirect:board/list";
+	}
+	
+	@RequestMapping("/boardDelete")
+	public String boardDelete(Integer[] chk) {
+		List<Integer> list = Arrays.asList(chk);
+		List<Integer> listA = new ArrayList<Integer>();
+		
+		for (int i = 0; i < chk.length; i++) {
+			listA.add(chk[i]);
+		}
+		
+		int delete = boardService.delete(chk);
+		
+		return "redirect:list";
 	}
 	
 	@RequestMapping("/boardDetail")

@@ -23,9 +23,9 @@ public class ServiceImpl implements BoardService {
 	private BoardDaoClass boardDao;
 	
 	@Override
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate)  throws Exception{
+	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo)  throws Exception{
 
-		return boardDao.list(searchType, keyword, startDate, endDate);
+		return boardDao.list(searchType, keyword, startDate, endDate, vo);
 	}
 
 	@Override
@@ -56,8 +56,8 @@ public class ServiceImpl implements BoardService {
 	
 	
 	@Override
-	public Integer totalCount() {
-		return boardDao.totalCount();
+	public Integer totalCount(String searchType, String keyword, String startDate, String endDate, PageVO vo) {
+		return boardDao.totalCount(searchType, keyword, startDate, endDate, vo);
 	}
 
 	/*-------------------------------------------------------------------*/
@@ -79,6 +79,13 @@ public class ServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardDao.boardDetail(seq);
 	}
+
+	@Override
+	public int delete(Integer[] chk) {
+		// TODO Auto-generated method stub
+		return boardDao.delete(chk);
+	}
+	
 
 
 	

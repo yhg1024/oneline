@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
+<!-- mapper = myBatis, sqlMap = iBatis -->
+<!DOCTYPE mapper 
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
@@ -16,48 +17,75 @@
  		<result property="useYN" column="USEYN"/>
  	</resultMap> 
  
+ 	<!-- 자주쓰는거 등록해놓는 곳 -->
+ 	<sql id="aa">
+ 		SEQ
+ 		, MEM_NAME
+ 		, MEM_ID
+ 		, BOARD_SUBJECT
+ 		, BOARD_CONTENT
+ 		, REG_DATE
+ 		, UPT_DATE
+ 		, VIEW_CNT
+ 		, USEYN 
+ 	</sql>
  	
+ 	
+ 	 	
  	<!-- 전체 내용 조회 -->
 	<select id="list" resultMap="boardList">
-	  SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN 
-	  	FROM (SELECT ROWNUM RNUM, SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN
-		        FROM (SELECT * FROM BOARD_STUDY ORDER BY SEQ DESC))
-	  WHERE 1=1
-	  	 <if test="startDate != '' and endDate != ''">
-            AND REG_DATE BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR}
-        </if>
-        <if test="searchType != null">
-		  	<choose>
-		  		<when test="searchType == 'memName'">
-		  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
-		  		</when>
-		  		<when test="searchType == 'title'">
-		  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
-		  		</when>
-		  		<otherwise>
-	                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
-	                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
-	            </otherwise>
-		  	</choose>
-	  	</if>
-	  ORDER BY SEQ DESC
+	  SELECT <include refid="aa"></include>
+		    FROM (SELECT ROWNUM RNUM, <include refid="aa"></include>
+		        FROM (SELECT * FROM BOARD_STUDY ORDER BY SEQ DESC)
+		        WHERE 1=1
+		        <if test="searchType != null">
+			        <choose>
+			        	<when test="searchType == 'memName'">
+				  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<when test="searchType == 'title'">
+				  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<otherwise>
+			                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+			                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+			            </otherwise>
+			        </choose>
+		        </if>)
+	    WHERE RNUM BETWEEN #{start} AND #{end}
+	    ORDER BY SEQ DESC
 	</select>
 	
 	
 	<!-- 페이징 -->
 	<select id="totalCount" resultType="Integer">
-		SELECT COUNT(*) FROM BOARD_STUDY
+		 SELECT COUNT(*) FROM BOARD_STUDY
+                WHERE 1=1
+                <if test="searchType != null">
+			        <choose>
+			        	<when test="searchType == 'memName'">
+				  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<when test="searchType == 'title'">
+				  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<otherwise>
+			                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+			                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+			            </otherwise>
+			        </choose>
+		        </if>
 	</select>
 	
 	<!-- 게시글 작성 -->
 	<insert id="write">
-		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
+		INSERT INTO BOARD_STUDY (<include refid="aa"></include>)
 			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, 0, NULL )
 	</insert>
 	
 	<!-- 상세보기 -->
 	<select id="detail" parameterType="int" resultMap="boardList">
-		SELECT SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT 
+		SELECT <include refid="aa"></include> 
 			FROM BOARD_STUDY
 		WHERE SEQ = #{seq}
 	</select>
@@ -68,6 +96,15 @@
 	</update>
 	
 	<!-- 게시글 삭제 -->
+	<!-- 
+		DELETE FROM BOARD_STUDY
+		WHERE SEQ IN (
+			<foreach collection="list" separator="," item="chk">
+				#{chk }
+			</foreach>
+		)
+	 -->
+	
 	<delete id="delete" parameterType="int">
         DELETE FROM BOARD_STUDY WHERE SEQ = #{seq}
     </delete>

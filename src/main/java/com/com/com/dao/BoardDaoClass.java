@@ -29,13 +29,15 @@ public class BoardDaoClass implements BoardDaoInter{
 	// T selectOne(query_id, '조건')	id에 대한 select문을 실행하면서 조건(쿼리문에서 사용할 인자)를 전달합니다. 
 
 	@Override
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate) throws Exception{
+	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception{
 
 		HashMap<String, Object> data = new HashMap<String, Object>();
 	    data.put("searchType", searchType);
 	    data.put("keyword", keyword);
 	    data.put("startDate", startDate);
 	    data.put("endDate", endDate);
+	    data.put("start", vo.getStart());
+	    data.put("end", vo.getEnd());
 	    
 	    System.out.println("BoardDaoClass = " + data);
 	    
@@ -69,8 +71,15 @@ public class BoardDaoClass implements BoardDaoInter{
 	
 	// 페이지네이션
 	@Override
-	public Integer totalCount() {
-		return sqlSession.selectOne("mapper.totalCount");
+	public Integer totalCount(String searchType, String keyword, String startDate, String endDate, PageVO vo) {
+		
+		HashMap<String, Object> data = new HashMap<String, Object>();
+	    data.put("searchType", searchType);
+	    data.put("keyword", keyword);
+	    data.put("startDate", startDate);
+	    data.put("endDate", endDate);
+	    
+		return sqlSession.selectOne("mapper.totalCount", data);
 	}
 	
 	/*--------------------------------------------------------------*/
@@ -85,6 +94,11 @@ public class BoardDaoClass implements BoardDaoInter{
 
 	public Map<String, Object> boardDetail(int num) {
 		return sqlSession.selectOne("mapper.detail", num);
+	}
+
+	public int delete(Integer[] chk) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("mapper.delete", chk);
 	}
 
 
