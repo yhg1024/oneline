@@ -15,6 +15,9 @@ $(function() {
 		$(location).attr("href", "/board/update?seq="+updateValue) // get 방식
 	});
 })
+function goBack() {
+	window.history.back();
+}
 </script>
 </head>
 <body>
@@ -28,6 +31,6 @@ $(function() {
 	</div>
 	<button id="update" value="${detail.seq}">수정</button>
 	<button onclick="location.href='/board/delete?seq=${detail.seq}'">삭제</button>
-	<button onclick="location.href='/board/list'">리스트</button>
+	<button onclick="goBack()">리스트</button>
 </body>
 </html>
