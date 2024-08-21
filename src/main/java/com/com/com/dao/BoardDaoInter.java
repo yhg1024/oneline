@@ -7,12 +7,12 @@ import com.com.com.domain.BoardVO;
 import com.com.com.domain.PageVO;
 
 public interface BoardDaoInter {
-
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception;
 	
-	public void write(BoardVO vo);
+	List<Map<String, Object>> list(Map<String, Object> map, PageVO vo);
 	
-	public BoardVO detail(int seq);
+	int insert(Map<String, Object> paramMap);
+	
+	public BoardVO detail(int num);
 	
 	public void viewCnt(int seq);
 	
@@ -21,16 +21,10 @@ public interface BoardDaoInter {
 	public int update(BoardVO vo);
 	
 	// 페이지네이션
-	public Integer totalCount(String searchType, String keyword, String startDate, String endDate, PageVO vo);
+	public Integer totalCount(Map<String, Object> map, PageVO vo);
 	
 	
 	/*-------------------------------------------*/
-	
-	List<Map<String, Object>> boardList(Map<String, Object> map);
-	
-	int boardInsert(Map<String, Object> paramMap);
-	
-	Map<String, Object> boardDetail(int seq);
 
 
 	

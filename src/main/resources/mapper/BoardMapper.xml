@@ -30,7 +30,6 @@
  		, USEYN 
  	</sql>
  	
- 	
  	 	
  	<!-- 전체 내용 조회 -->
 	<select id="list" resultMap="boardList">

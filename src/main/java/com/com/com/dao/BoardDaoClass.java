@@ -29,24 +29,26 @@ public class BoardDaoClass implements BoardDaoInter{
 	// T selectOne(query_id, '조건')	id에 대한 select문을 실행하면서 조건(쿼리문에서 사용할 인자)를 전달합니다. 
 
 	@Override
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception{
+	public List<Map<String, Object>> list(Map<String, Object> map, PageVO vo) {
+		
+	    HashMap<String, Object> data = new HashMap<>(map); // map의 내용을 data에 복사
+	    
+	    data.put("searchType", map.getOrDefault("searchType", ""));
+		data.put("endDate", map.getOrDefault("endDate", "")); 
+		data.put("startDate", map.getOrDefault("startDate", "")); 
+		data.put("keyword",	map.getOrDefault("keyword", ""));
 
-		HashMap<String, Object> data = new HashMap<String, Object>();
-	    data.put("searchType", searchType);
-	    data.put("keyword", keyword);
-	    data.put("startDate", startDate);
-	    data.put("endDate", endDate);
+	    // 필요한 값 추가
 	    data.put("start", vo.getStart());
 	    data.put("end", vo.getEnd());
-	    
+
 	    System.out.println("BoardDaoClass = " + data);
-	    
-		return sqlSession.selectList("mapper.list", data);
+
+	    return sqlSession.selectList("mapper.list", data);
 	}
 
-	@Override
-	public void write(BoardVO vo) { 
-		sqlSession.insert("mapper.write", vo); // , 뒤에는 여러개를 못써서 vo에 여러개의 데이터를 넣고 뺴고 쓴다
+	public int insert(Map<String, Object> map) {
+		return sqlSession.insert("mapper.write", map);
 	}
 
 	@Override
@@ -71,39 +73,21 @@ public class BoardDaoClass implements BoardDaoInter{
 	
 	// 페이지네이션
 	@Override
-	public Integer totalCount(String searchType, String keyword, String startDate, String endDate, PageVO vo) {
+	public Integer totalCount(Map<String, Object> map, PageVO vo) {
 		
 		HashMap<String, Object> data = new HashMap<String, Object>();
-	    data.put("searchType", searchType);
-	    data.put("keyword", keyword);
-	    data.put("startDate", startDate);
-	    data.put("endDate", endDate);
+		data.put("searchType", map.getOrDefault("searchType", ""));
+		data.put("endDate", map.getOrDefault("endDate", "")); 
+		data.put("startDate", map.getOrDefault("startDate", "")); 
+		data.put("keyword",	map.getOrDefault("keyword", ""));
 	    
 		return sqlSession.selectOne("mapper.totalCount", data);
 	}
 	
 	/*--------------------------------------------------------------*/
 
-	public List<Map<String, Object>> boardList(Map<String, Object> map) {
-		return sqlSession.selectList("mapper.viewAll");
-	}
-
-	public int boardInsert(Map<String, Object> map) {
-		return sqlSession.insert("mapper.insert", map);
-	}
-
-	public Map<String, Object> boardDetail(int num) {
-		return sqlSession.selectOne("mapper.detail", num);
-	}
-
 	public int delete(Integer[] chk) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("mapper.delete", chk);
 	}
-
-
-
-
-	
-
 }

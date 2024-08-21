@@ -28,78 +28,53 @@ public class MainController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping(value = "/list")
-	public String getAllBoards(Model model,
-//		    @RequestParam(value = "searchType",required = false) String searchType,
-//		    @RequestParam(value = "keyword",required = false) String keyword,
-//		    @RequestParam(value = "startDate",required = false) String startDate,
-//		    @RequestParam(value = "endDate",required = false) String endDate,
-		    PageVO vo,
-//		    @RequestParam(value="nowPage", required=false)Integer nowPage,
-//			@RequestParam(value="cntPerPage", required=false)Integer cntPerPage
-		    @RequestParam Map<String, Object> map
-			) throws Exception {
-		
-		// 전체 목록
-		// List<BoardVO> list = boardService.getAllBoards();	
-		// model.addAttribute("viewAll", list);		
-		
-		int nowPage = map.get("nowPage") == null ? 1 : Integer.parseInt(map.get("nowPage").toString()) ;
-		int cntPerPage = map.get("cntPerPage") == null ? 10 : Integer.parseInt(map.get("cntPerPage").toString()) ;
-		String searchType = map.get("searchType") == null ? "" : map.get("searchType").toString();
-		String keyword = map.get("keyword") == null ? "" : map.get("keyword").toString();
-		String startDate = map.get("startDate") == null ? "" : map.get("startDate").toString();
-		String endDate = map.get("endDate") == null ? "" : map.get("endDate").toString();
-		 
-		// 페이지네이션
-		Integer total = boardService.totalCount(searchType, keyword, startDate, endDate, vo);
-		
-		
-		
-//		if (nowPage == null && cntPerPage == null) {
-//			nowPage = "1";
-//			cntPerPage = "10";
-//		} else if (nowPage == null) {
-//			nowPage = "1";
-//		} else if (cntPerPage == null) {
-//			cntPerPage = "10";
-//		}		
+	@RequestMapping("/list")
+	public String boardList(Model model, PageVO vo, @RequestParam Map<String, Object> map) throws Exception {
+	    // 기본값 설정
+	    int nowPage = getIntValue(map, "nowPage", 1);
+	    int cntPerPage = getIntValue(map, "cntPerPage", 10);
 
-		vo = new PageVO(total, nowPage, cntPerPage);
-		
+	    // 페이지네이션
+	    Integer total = boardService.totalCount(map, vo);
+	    vo = new PageVO(total, nowPage, cntPerPage);
+	    model.addAttribute("pagination", vo);
 
-		System.out.println("vo = " + vo);
-		model.addAttribute("pagination", vo);
-		
-		List<BoardVO> list = boardService.list(searchType, keyword, startDate, endDate, vo);
-		
-		model.addAttribute("list", list);
-		System.out.println("list = " + list);
+	    // map에 페이지 정보 추가
+	    map.put("pageVO", vo);
 
-	  return "/board/list";
+	    List<Map<String, Object>> listMap = boardService.list(map, vo);
+	    System.out.println("listMap = " + listMap);
+	    model.addAttribute("list", listMap);
+
+	    return "/board/list";
 	}
 	
-	
-	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public String write() {
-		
-	  return "/board/write";
+	@RequestMapping("/write")
+	public String boardInsert(@RequestParam Map<String, Object> map, Model model) throws Exception {
+	    if (map != null && map.get("title") != null) { // POST 요청 처리: 글 저장
+	        int insert = boardService.insert(map);
+	        
+	        if (insert == 0) {
+	            // 삽입 실패 시 처리 로직 (예: 에러 메시지 추가)
+	            model.addAttribute("errorMessage", "글 저장에 실패했습니다.");
+	            return "/board/write"; // 실패 시 글쓰기 폼으로 돌아감
+	        } else {
+	            // 삽입 성공 시 리스트로 리다이렉트
+	            return "redirect:/board/list";
+	        }
+	    }
+	    // GET 요청 처리: 글쓰기 폼 보여주기
+	    return "/board/write";
 	}
 	
-	@RequestMapping(value="/write")
-	public String write(BoardVO vo) throws Exception {
-		boardService.insert(vo);
-		return "redirect:/board/list";
-	}
-	
-	@RequestMapping("/detail")
-	public String detail(Model model, int seq) {
-		model.addAttribute("detail", boardService.detail(seq));
-		
-		boardService.viewCnt(seq);
-		
-		return "board/detail";
-	}
+  	@RequestMapping("/detail")
+  	public String detail(Model model, int seq) {
+  		model.addAttribute("detail", boardService.detail(seq));
+  		
+  		boardService.viewCnt(seq);
+  		
+  		return "board/detail";
+  	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(int seq, Model model) {
@@ -119,32 +94,14 @@ public class MainController {
 		return "redirect:/board/list";
 	}
 	
+	// 키에 대한 값을 가져오고, 값이 없을 경우 기본값을 반환합니다.
+	private int getIntValue(Map<String, Object> map, String key, int defaultValue) {
+	    return map.containsKey(key) ? Integer.parseInt(map.get(key).toString()) : defaultValue;
+	}
+	
 	
 	/*--------------------------------------------------------*/
 	
-	@RequestMapping("/boardList")
-	public String boardList(Model model, Map<String, Object> map) {
-		List<Map<String, Object>> listMap = boardService.listMap(map);
-		model.addAttribute("listData", listMap);
-		return "/board/list";
-	}
-	
-	@RequestMapping("/boardWrite")
-	public String boardWrite() {
-		return "board/write";
-	}
-	
-	@RequestMapping("/boardInsert")
-	public String boardInsert(Map<String, Object> map) {
-		int insert = boardService.boardInsert(map);
-		
-		if (insert == 0) {
-			
-		} else {
-			
-		}
-		return "redirect:board/list";
-	}
 	
 	@RequestMapping("/boardDelete")
 	public String boardDelete(Integer[] chk) {
@@ -160,11 +117,5 @@ public class MainController {
 		return "redirect:list";
 	}
 	
-	@RequestMapping("/boardDetail")
-	public String boardDetail(@RequestParam("seq") int num, Model model) {
-		Map<String, Object> detailMap = boardService.boardDetail(num);
-		model.addAttribute("detailMap", detailMap);
-		return "board/write";
-	}
 	
 }

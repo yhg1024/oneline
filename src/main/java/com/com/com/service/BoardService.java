@@ -10,9 +10,9 @@ import com.com.com.domain.PageVO;
 
 public interface BoardService {
 		
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo) throws Exception;
+	public List<Map<String, Object>> list(Map<String, Object> map, PageVO vo);
 
-	public void insert(BoardVO vo);
+	public int insert(Map<String, Object> map);
 
 	public BoardVO detail(int seq);
 
@@ -23,17 +23,12 @@ public interface BoardService {
 	public void viewCnt(int seq);
 	
 	// 게시물 총 갯수
-	public Integer totalCount(String searchType, String keyword, String startDate, String endDate, PageVO vo);
+	public Integer totalCount(Map<String, Object> map, PageVO vo);
 	
 	/*------------------------------------------------*/
 
-	public List<Map<String, Object>> listMap(Map<String, Object> map);
-
-	public int boardInsert(Map<String, Object> map);
-
-	public Map<String, Object> boardDetail(int num);
-
 	public int delete(Integer[] chk);
+
 
 
 

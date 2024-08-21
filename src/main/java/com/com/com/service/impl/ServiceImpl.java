@@ -23,14 +23,15 @@ public class ServiceImpl implements BoardService {
 	private BoardDaoClass boardDao;
 	
 	@Override
-	public List<BoardVO> list(String searchType, String keyword, String startDate, String endDate, PageVO vo)  throws Exception{
-
-		return boardDao.list(searchType, keyword, startDate, endDate, vo);
+	public List<Map<String, Object>> list(Map<String, Object> map, PageVO vo) {
+		
+		return boardDao.list(map, vo);
 	}
 
 	@Override
-	public void insert(BoardVO vo) {
-		boardDao.write(vo);
+	public int insert(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return boardDao.insert(paramMap);
 	}
 
 	@Override
@@ -56,29 +57,12 @@ public class ServiceImpl implements BoardService {
 	
 	
 	@Override
-	public Integer totalCount(String searchType, String keyword, String startDate, String endDate, PageVO vo) {
-		return boardDao.totalCount(searchType, keyword, startDate, endDate, vo);
+	public Integer totalCount(Map<String, Object> map, PageVO vo) {
+		return boardDao.totalCount(map, vo);
 	}
 
 	/*-------------------------------------------------------------------*/
 
-	@Override
-	public List<Map<String, Object>> listMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return boardDao.boardList(map);
-	}
-
-	@Override
-	public int boardInsert(Map<String, Object> paramMap) {
-		// TODO Auto-generated method stub
-		return boardDao.boardInsert(paramMap);
-	}
-
-	@Override
-	public Map<String, Object> boardDetail(int seq) {
-		// TODO Auto-generated method stub
-		return boardDao.boardDetail(seq);
-	}
 
 	@Override
 	public int delete(Integer[] chk) {
