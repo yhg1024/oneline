@@ -87,8 +87,8 @@ function list() {
 	}
 	$.ajax({
     	url : "/board/test", // action
-    	// data : $('#search').serialize(), // parameter json // serialize() ex) /list? 뒤에꺼
-    	data : JSON.stringify(data),
+    	data : $('#search').serialize(), // parameter json // serialize() ex) /list? 뒤에꺼
+    	// data : JSON.stringify(data),
     	type : "POST", // 메소드
 
     	success : function(data) {
@@ -157,7 +157,7 @@ function formatDate(dateString) {
 	<button type="button" onclick="location.href='/board/write'">글쓰기</button>
 	<button type="button" id="delete">삭제</button>	
 	<table border="1" id="list">
-		<tr>
+		<%-- <tr>
 			<th><input type="checkbox" name="lists" value="selectAll" class="all" id="selectAll"/></th>
 			<th>글번호</th>
 			<th>작성자(ID)</th>
@@ -166,7 +166,7 @@ function formatDate(dateString) {
 			<th>수정일</th>
 			<th>조회수</th>
 		</tr> 
-		<%-- <c:forEach items="${list}" var="list"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
+		<c:forEach items="${list}" var="list"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
 			<tr>
 				<td><input type="checkbox" name="list" class="chk" value="${list.seq}" /></td>
 				<td id="seqtd" onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
