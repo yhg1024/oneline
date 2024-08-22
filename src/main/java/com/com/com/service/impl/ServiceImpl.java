@@ -24,7 +24,7 @@ public class ServiceImpl implements BoardService {
 	
 	@Override
 	public List<Map<String, Object>> list(Map<String, Object> map, PageVO vo) {
-		
+		System.out.println("service =" + map);
 		return boardDao.list(map, vo);
 	}
 

@@ -54,7 +54,7 @@ public class MainController {
 	@ResponseBody
 	@RequestMapping(value="/test", method=RequestMethod.POST)
 	public List<Map<String, Object>> test(Model model, PageVO vo, @RequestParam Map<String, Object> map) {
-		System.out.println(map);
+		System.out.println("map" + map);
 		// 기본값 설정
 	    int nowPage = getIntValue(map, "nowPage", 1);
 	    int cntPerPage = getIntValue(map, "cntPerPage", 10);

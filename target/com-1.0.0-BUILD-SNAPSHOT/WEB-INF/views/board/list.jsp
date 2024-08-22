@@ -70,24 +70,65 @@ function fncPageClick(nowPage, cntPerPage){
 }
 
 $(document).ready(function () {
-	$(".searchBtn").click(function() {
+	$("#searchBtn").click(function() {
 		list();
 	})
 });
 function list() {
+	var searchType = $("#searchType>option:selected").val();
+	var keyword = $("#keyword").val();
+	var startdate = $("#startdate").val();
+	var endDate = $("#endDate").val();
+	var data = {
+		"searchType" : searchType,
+		"keyword" : keyword,
+		"startdate" : startdate,
+		"endDate" : endDate
+	}
 	$.ajax({
-    	url : "/test", // action
+    	url : "/board/test", // action
     	// data : $('#search').serialize(), // parameter json // serialize() ex) /list? 뒤에꺼
-    	data : JSON.stringify(),
+    	data : JSON.stringify(data),
     	type : "POST", // 메소드
 
     	success : function(data) {
-    		alert(data);
-	    	},
+    		console.log(data[0].seq,data[0].memName);
+    		for(var i = 0; i < data.length; i++){
+    			console.log(data[i].seq, data[i].memName, data[i].title,data[i].regDate);   
+    		}
+    		var str = "<tr>"+
+                '<td><input type="checkbox" name="lists" value="selectAll" class="all" id="selectAll"/></td>'+
+                '<th>글번호</th>'+
+                '<th>작성자(ID)</th>'+
+                '<th>제목</th>'+
+                '<th>작성일</th>'+
+                '<th>수정일</th>'+
+                '<th>조회수</th>'+
+            '</tr>'
+            
+    		$.each(data, function(i){
+        		var regDate = data[i].regDate !== null ? data[i].regDate : "";
+                str += "<tr>"
+	                str += '<td><input type="checkbox" name="list" class="chk" value="' + data[i].seq + '" /></td>'
+	                str += '<td>' + data[i].seq + '</td>'
+	                str += '<td>' + data[i].memName + '(' + data[i].title + ')</td>'
+	                str += '<td>' + data[i].title + '</td>'
+	                str += '<td>' + formatDate(data[i].regDate) + '</td>'
+	                str += '<td>' + formatDate(data[i].upDate) + '</td>'
+	                str += '<td>' + data[i].viewCnt + '</td>'
+                str += '</tr>'
+            });
+    		$("#list").html(str);
+       
+    	},
     	error : function() {
     		alert("에러");
     	}
     });
+}
+function formatDate(dateString) {
+    var date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // yyyy-MM-dd 형식으로 변환
 }
 </script>
 </head>
@@ -96,15 +137,15 @@ function list() {
 		<input type = "hidden" name = "nowPage"  id = "nowPage" value = "1">
 		<input type = "hidden" name = "cntPerPage"  id = "cntPerPage" value = "10">
 	 
- 		<select name="searchType">
+ 		<select name="searchType" id="searchType" >
 	        <option value="">선택</option>
 	        <option value="memName" ${param.searchType == 'memName' ? 'selected' : ''}>작성자</option>
 	        <option value="title" ${param.searchType == 'title' ? 'selected' : ''}>제목</option>
 	        <option value="title+boardContent">제목+내용</option>
 	    </select>
-	    <input type="text" name="keyword" class="searchInput" type="text" value="${param.keyword}">
-	    <input type="button" class="searchBtn" value="검색"> <br/>
-	    <input type="date" name="startDate"  value="${param.startDate}" /> ~ <input type="date" name="endDate"  value="${param.endDate}" />
+	    <input type="text" name="keyword" id="keyword" type="text" value="${param.keyword}">
+	    <input type="button" id="searchBtn" value="검색"> <br/>
+	    <input type="date" name="startdate" id="startdate" value="${param.startdate}" /> ~ <input type="date" name="endDate" id="endDate" value="${param.endDate}" />
 	    <select name="cntPerPage">
 	        <option value="10" ${pageVO.cntPerPage eq 10 ? 'selected' : '' }>10</option>
 	        <option value="30" ${pageVO.cntPerPage eq 30 ? 'selected' : '' }>30</option>
@@ -125,17 +166,17 @@ function list() {
 			<th>수정일</th>
 			<th>조회수</th>
 		</tr> 
-		<c:forEach items="${list}" var="list"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
+		<%-- <c:forEach items="${list}" var="list"> <!-- varStatus :  index 숫자를 줄 수 있다. 리스트의 길이만큼 자동으로 index를 준다 -->
 			<tr>
 				<td><input type="checkbox" name="list" class="chk" value="${list.seq}" /></td>
-				<td id="seqTd" onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
-				<td id="memNameTd" id="tlssk" onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}(${list.memId})</td>
-				<td id="titleTd" onclick="location.href='/board/detail?seq=${list.seq}'">${list.title}</td>
-				<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${list.upDate}" pattern="yyyy-MM-dd"/></td>
+				<td id="seqtd" onclick="location.href='/board/detail?seq=${list.seq}'">${list.seq}</td>
+				<td id="memNametd" id="tlssk" onclick="location.href='/board/detail?seq=${list.seq}'">${list.memName}(${list.memId})</td>
+				<td id="titletd" onclick="location.href='/board/detail?seq=${list.seq}'">${list.title}</td>
+				<td><fmt:formatdate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatdate value="${list.upDate}" pattern="yyyy-MM-dd"/></td>
 				<td><c:out value="${list.viewCnt}"/></td>
 			</tr>
-		</c:forEach>
+		</c:forEach> --%>
 	</table>
 	<div class="pagination">	
 		<c:if test="${pagination.nowPage >= 11 }">

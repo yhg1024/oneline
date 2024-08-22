@@ -3,16 +3,10 @@ package com.com.com.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.inject.Inject;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.com.com.domain.BoardVO;
 import com.com.com.domain.PageVO;
 
@@ -40,7 +34,12 @@ public class BoardDaoClass implements BoardDaoInter{
 
 	    // 필요한 값 추가
 	    data.put("start", vo.getStart());
-	    data.put("end", vo.getEnd());
+	    data.put("end", vo.getEnd());  
+	    
+	    
+	    for (String key : map.keySet()) {
+	        System.out.println("Key: " + key + ", Value: " + map.get(key));
+	    }
 
 	    return sqlSession.selectList("mapper.list", data);
 	}
@@ -78,7 +77,7 @@ public class BoardDaoClass implements BoardDaoInter{
 		data.put("endDate", map.getOrDefault("endDate", "")); 
 		data.put("startDate", map.getOrDefault("startDate", "")); 
 		data.put("keyword",	map.getOrDefault("keyword", ""));
-	    
+		
 		return sqlSession.selectOne("mapper.totalCount", data);
 	}
 	

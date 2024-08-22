@@ -79,7 +79,12 @@ function list() {
 	var keyword = $("#keyword").val();
 	var startdate = $("#startdate").val();
 	var endDate = $("#endDate").val();
-	var data = {"searchType" : searchType,"keyword" : keyword,"startdate" : startdate,"endDate" : endDate}
+	var data = {
+		"searchType" : searchType,
+		"keyword" : keyword,
+		"startdate" : startdate,
+		"endDate" : endDate
+	}
 	$.ajax({
     	url : "/board/test", // action
     	// data : $('#search').serialize(), // parameter json // serialize() ex) /list? 뒤에꺼
