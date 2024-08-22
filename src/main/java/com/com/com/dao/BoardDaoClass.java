@@ -31,7 +31,7 @@ public class BoardDaoClass implements BoardDaoInter{
 	@Override
 	public List<Map<String, Object>> list(Map<String, Object> map, PageVO vo) {
 		
-	    HashMap<String, Object> data = new HashMap<>(map); // map의 내용을 data에 복사
+	    HashMap<String, Object> data = new HashMap<String, Object>(map); // map의 내용을 data에 복사
 	    
 	    data.put("searchType", map.getOrDefault("searchType", ""));
 		data.put("endDate", map.getOrDefault("endDate", "")); 
@@ -41,8 +41,6 @@ public class BoardDaoClass implements BoardDaoInter{
 	    // 필요한 값 추가
 	    data.put("start", vo.getStart());
 	    data.put("end", vo.getEnd());
-
-	    System.out.println("BoardDaoClass = " + data);
 
 	    return sqlSession.selectList("mapper.list", data);
 	}

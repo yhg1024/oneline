@@ -7,18 +7,30 @@
 <head>
 <meta charset="EUC-KR">
 <title>상세</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('#update').click(function() {
+		var updateValue = $(this).val(); 
+		$(location).attr("href", "/board/update?seq="+updateValue) // get 방식
+	});
+})
+function goBack() {
+	window.history.back();
+}
+</script>
 </head>
 <body>
 	<h2>게시글 상세페이지</h2>
 	<div>
-		<div>제목 : ${detail.title}</div>
-		<div>글번호 : ${detail.seq}</div>
-		<div>작성자 : ${detail.memName}</div>
-		<div>작성 날짜 : ${detail.regDate}</div>
-		<div>내용 : ${detail.boardContent}</div>
+		<p>제목 : ${detail.title}</p>
+		<p>글번호 : ${detail.seq}</p>
+		<p>작성자 : ${detail.memName}</p>
+		<p>작성 날짜 : <fmt:formatDate value="${detail.regDate}" pattern="yyyy-MM-dd"/></p>
+		<p>내용 : ${detail.boardContent}</p>
 	</div>
-	<button onclick="loction.href='/board/update/${detail.seq}'">수정</button>
-	<button onclick="loction.href='/board/delete/${detail.seq}'">삭제</button>
-	<button onclick="location.href='/board/list'">리스트</button>
+	<button id="update" value="${detail.seq}">수정</button>
+	<button onclick="location.href='/board/delete?seq=${detail.seq}'">삭제</button>
+	<button onclick="goBack()">리스트</button>
 </body>
 </html>

@@ -11,7 +11,7 @@
 <body>
 	<h3>수정</h3>
 	
-	<form action="/modify" name="updateForm" method="post">
+	<form action="/board/update" name="updateForm" method="post">
 		<p>작성자 : <input type="text" name="memName" /></p>
 		<p>ID : <input type="text" name="memId" /></p>
 		<p>제목 : <input type="text" name="title" /></p>

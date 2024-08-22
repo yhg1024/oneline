@@ -2,6 +2,7 @@ package com.com.com.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.com.com.domain.BoardVO;
 import com.com.com.domain.PageVO;
@@ -36,6 +38,7 @@ public class MainController {
 
 	    // 페이지네이션
 	    Integer total = boardService.totalCount(map, vo);
+	    System.out.println("listtotal = " + total);
 	    vo = new PageVO(total, nowPage, cntPerPage);
 	    model.addAttribute("pagination", vo);
 
@@ -43,10 +46,34 @@ public class MainController {
 	    map.put("pageVO", vo);
 
 	    List<Map<String, Object>> listMap = boardService.list(map, vo);
-	    System.out.println("listMap = " + listMap);
 	    model.addAttribute("list", listMap);
 
 	    return "/board/list";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/test", method=RequestMethod.POST)
+	public List<Map<String, Object>> test(Model model, PageVO vo, @RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		// 기본값 설정
+	    int nowPage = getIntValue(map, "nowPage", 1);
+	    int cntPerPage = getIntValue(map, "cntPerPage", 10);
+	    
+	    // 페이지네이션
+	    Integer total = boardService.totalCount(map, vo);
+	    System.out.println("total = " + total);
+	    vo = new PageVO(total, nowPage, cntPerPage);
+	    model.addAttribute("pagination", vo);
+	    
+	 // map에 페이지 정보 추가
+	    map.put("pageVO", vo);
+
+	    List<Map<String, Object>> listMap = boardService.list(map, vo);
+	    model.addAttribute("list", listMap);
+	    
+	    System.out.println("listMap = " + listMap);
+	    
+		return listMap;
 	}
 	
 	@RequestMapping("/write")

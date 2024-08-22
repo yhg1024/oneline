@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
+<!-- mapper = myBatis, sqlMap = iBatis -->
+<!DOCTYPE mapper 
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
@@ -11,32 +12,114 @@
  		<result property="title" column="BOARD_SUBJECT"/>
  		<result property="boardContent" column="BOARD_CONTENT"/>
  		<result property="regDate" column="REG_DATE"/>
- 		<result property="uptDate" column="UPT_DATE"/>
+ 		<result property="upDate" column="UPT_DATE"/>
  		<result property="viewCnt" column="VIEW_CNT"/>
  		<result property="useYN" column="USEYN"/>
  	</resultMap> 
+ 
+ 	<!-- 자주쓰는거 등록해놓는 곳 -->
+ 	<sql id="aa">
+ 		SEQ
+ 		, MEM_NAME
+ 		, MEM_ID
+ 		, BOARD_SUBJECT
+ 		, BOARD_CONTENT
+ 		, REG_DATE
+ 		, UPT_DATE
+ 		, VIEW_CNT
+ 		, USEYN 
+ 	</sql>
  	
+ 	 	
  	<!-- 전체 내용 조회 -->
-	<select id="viewAll" resultMap="boardList">
-	  SELECT SEQ, MEM_NAME, BOARD_SUBJECT, REG_DATE, UPT_DATE, VIEW_CNT 
-	  	FROM BOARD_STUDY 
-	  ORDER BY SEQ DESC
+	<select id="list" resultMap="boardList">
+	  SELECT <include refid="aa"></include>
+		    FROM (SELECT ROWNUM RNUM, <include refid="aa"></include>
+		        FROM (SELECT <include refid="aa"></include> FROM BOARD_STUDY ORDER BY SEQ DESC)
+		        WHERE 1=1
+		        <if test="startDate != '' and endDate != ''">
+		           AND REG_DATE BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR}
+		       </if>
+		        <if test="searchType != null">
+			        <choose>
+			        	<when test="searchType == 'memName'">
+				  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<when test="searchType == 'title'">
+				  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<otherwise>
+			                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+			                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+			            </otherwise>
+			        </choose>
+		        </if>)
+	    WHERE RNUM BETWEEN #{start} AND #{end}
+	    ORDER BY SEQ DESC
 	</select>
 	
-	<insert id="write" parameterType="map" >
-		INSERT INTO BOARD_STUDY (SEQ, MEM_NAME, MEM_ID, BOARD_SUBJECT, BOARD_CONTENT, REG_DATE, UPT_DATE, VIEW_CNT, USEYN)
-			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, NULL, NULL )
+	
+	<!-- 페이징 -->
+	<select id="totalCount" resultType="Integer">
+		 SELECT COUNT(*) FROM BOARD_STUDY
+                WHERE 1=1
+                <if test="startDate != '' and endDate != ''">
+		           AND REG_DATE BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR}
+		       </if>
+                <if test="searchType != null">
+			        <choose>
+			        	<when test="searchType == 'memName'">
+				  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<when test="searchType == 'title'">
+				  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<otherwise>
+			                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+			                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+			            </otherwise>
+			        </choose>
+		        </if>
+	</select>
+	
+	<!-- 게시글 작성 -->
+	<insert id="write">
+		INSERT INTO BOARD_STUDY (<include refid="aa"></include>)
+			VALUES ((SEQ.NEXTVAL+1), #{memName} , #{memId}, #{title}, #{boardContent}, SYSDATE, NULL, 0, NULL )
 	</insert>
 	
+	<!-- 상세보기 -->
 	<select id="detail" parameterType="int" resultMap="boardList">
-		SELECT *
+		SELECT <include refid="aa"></include> 
 			FROM BOARD_STUDY
 		WHERE SEQ = #{seq}
 	</select>
 	
-	
-	<update id="viewCnt" parameterType="int">
-		 UPDATE BOARD_STUDY SET VIEW_CNT = VIEW_CNT + 1 WHERE SEQ = #{seq}
+	<!-- 조회수 -->
+	<update id="viewCnt">
+		 UPDATE BOARD_STUDY SET VIEW_CNT = NVL(VIEW_CNT, 0) + 1 WHERE SEQ = #{seq}
 	</update>
+	
+	<!-- 게시글 삭제 -->
+	<!-- 
+		DELETE FROM BOARD_STUDY
+		WHERE SEQ IN (
+			<foreach collection="list" separator="," item="chk">
+				#{chk }
+			</foreach>
+		)
+	 -->
+	
+	<delete id="delete" parameterType="int">
+        DELETE FROM BOARD_STUDY WHERE SEQ = #{seq}
+    </delete>
+ 
+	<!-- 게시글 수정 -->
+	<update id="update" >
+    	UPDATE BOARD_STUDY
+    		SET BOARD_SUBJECT = #{title}, BOARD_CONTENT = #{boardContent}, UPT_DATE = SYSDATE
+    	WHERE  SEQ = #{seq}    	
+	</update>
+	
 </mapper>
   
