@@ -1,36 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   <!-- ÅÂ±× ¶óÀÌºê·¯¸® »ç¿ë -->
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>»ó¼¼</title>
+<title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 $(function() {
 	$('#update').click(function() {
 		var updateValue = $(this).val(); 
-		$(location).attr("href", "/board/update?seq="+updateValue) // get ¹æ½Ä
+		$(location).attr("href", "/update?seq="+updateValue) // get ë°©ì‹
 	});
 })
 function goBack() {
-	window.history.back();
+	location.href = '/list'
 }
 </script>
 </head>
 <body>
-	<h2>°Ô½Ã±Û »ó¼¼ÆäÀÌÁö</h2>
-	<div>
-		<p>Á¦¸ñ : ${detail.title}</p>
-		<p>±Û¹øÈ£ : ${detail.seq}</p>
-		<p>ÀÛ¼ºÀÚ : ${detail.memName}</p>
-		<p>ÀÛ¼º ³¯Â¥ : <fmt:formatDate value="${detail.regDate}" pattern="yyyy-MM-dd"/></p>
-		<p>³»¿ë : ${detail.boardContent}</p>
-	</div>
-	<button id="update" value="${detail.seq}">¼öÁ¤</button>
-	<button onclick="location.href='/board/delete?seq=${detail.seq}'">»èÁ¦</button>
-	<button onclick="goBack()">¸®½ºÆ®</button>
+	<h1>${detail.seq }ìƒì„¸í˜ì´ì§€</h1>
+	<div>ì‘ì„±ì : ${detail.memName }</div>
+	<div>ID : ${detail.memId}</div>
+	<div>ì œëª© : ${detail.boardSubject}</div>
+	<div>ë‚´ìš© : ${detail.boardContent}</div>
+	<div>ì²¨ë¶€ íŒŒì¼ : </div>
+	<c:forEach var="file" items="${fileList}">
+		<img src="/img/${file.fileSeq }?seq=${file.fileSeq }"><br>
+		<a href="<c:url value='/fileDownload?seq=${file.fileSeq }'/>" target="_blank">${file.realName }</a><br>
+	</c:forEach>
+	<button id="update" value="${detail.seq}">ìˆ˜ì •</button>
+	<button onclick="location.href='/delete?seq=${detail.seq}'">ì‚­ì œ</button>
+	<button onclick="goBack()">ë¦¬ìŠ¤íŠ¸</button>
 </body>
 </html>

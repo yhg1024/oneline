@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="mapper">
+  
+  	<resultMap type="map" id="rsMap">
+  		<result column="seq" property="seq"/>
+  		<result column="mem_id" property="memId"/>
+  		<result column="mem_name" property="memName"/>
+  		<result column="board_subject" property="boardSubject"/>
+  		<result column="board_content" property="boardContent"/>
+  		<result column="reg_date" property="regDate"/>
+  		<result column="upt_date" property="uptDate"/>
+  		<result column="view_cnt" property="viewCnt"/>
+  	</resultMap>
+  	
+  	<resultMap type="map" id="fileMap">
+  		<result column="FILE_SEQ" property="fileSeq"/>
+  		<result column="REAL_NAME" property="realName"/>
+  		<result column="SAVE_NAME" property="saveName"/>
+  		<result column="REG_DATE" property="regDate"/>
+  		<result column="SAVE_PATH" property="savePath"/>
+  		<result column="LIST_SEQ" property="listSeq"/>
+  	</resultMap>
+  	
+  	<!-- 자주쓰는거 등록해놓는 곳 -->
+ 	<sql id="list">
+ 		SEQ
+ 		, MEM_NAME
+ 		, MEM_ID
+ 		, BOARD_SUBJECT
+ 		, BOARD_CONTENT
+ 		, REG_DATE
+ 		, UPT_DATE
+ 		, VIEW_CNT
+ 		, USEYN 
+ 	</sql>
+  
+  	<select id="list" resultMap="rsMap">
+  		SELECT <include refid="list"></include>
+  			FROM (SELECT ROWNUM RNUM, <include refid="list"></include> 
+  					FROM (SELECT <include refid="list"></include> FROM BOARD_STUDY ORDER BY SEQ DESC)
+  					WHERE 1=1 
+  					<if test="startDate != '' and endDate != ''">
+  						AND REG_DATE BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR}
+  					</if>
+  					<if test="searchType != null">
+	  					<choose>
+	  						<when test="searchType == 'memName'">
+			  					AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+	  						</when>
+	  						<when test="searchType == 'boardSubject'">
+			  					AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+	  						</when>
+	  						<otherwise>
+	  							AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+	  						</otherwise>
+	  					</choose>
+  					</if>)
+  		WHERE RNUM BETWEEN #{start} AND #{end}
+	    ORDER BY SEQ DESC
+  	</select>
+  	
+  	<select id="nexaList" resultType="map">
+  		SELECT <include refid="list"></include>
+  			FROM (SELECT ROWNUM RNUM, <include refid="list"></include> 
+  					FROM (SELECT <include refid="list"></include> FROM BOARD_STUDY ORDER BY SEQ DESC)
+  					WHERE 1=1 
+  					<choose>
+  						<when test="searchType == 'memName'">
+		  					AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+  						</when>
+  						<when test="searchType == 'boardSubject'">
+		  					AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+  						</when>
+  						<otherwise>
+  							AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+			                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+  						</otherwise>
+  					</choose>)
+  	</select>
+  	
+  	<select id="listSeq" resultType="int">
+  		SELECT NVL(MAX(SEQ), 0)+1 FROM BOARD_STUDY
+  	</select>
+  	
+  	<select id="fileSeq" resultType="int">
+  		SELECT NVL(MAX(FILE_SEQ), 0)+1 FROM FILE_STUDY_TABLE
+  	</select>
+  	
+  	<insert id="insert" >
+  		INSERT INTO BOARD_STUDY (<include refid="list"></include>)
+    		VALUES ((SELECT NVL(MAX(SEQ), 0)+1 FROM BOARD_STUDY), #{memName}, #{memId}, #{boardSubject}, #{boardContent}, SYSDATE, NULL, 0, NULL)
+  	</insert>
+  		
+  	<!-- file -->
+  	<insert id="uploadFile">
+  		INSERT INTO FILE_STUDY_TABLE (FILE_SEQ, REAL_NAME, SAVE_NAME, REG_DATE, SAVE_PATH, LIST_SEQ)
+    		VALUES((SELECT NVL(MAX(FILE_SEQ), 0)+1 FROM FILE_STUDY_TABLE), #{originalFileName}, #{saveFileName}, SYSDATE, #{uploadPath}, #{seq})
+  	</insert>
+  	
+  	<select id="detail" resultMap="rsMap">
+  		SELECT <include refid="list"></include>
+  			FROM BOARD_STUDY
+  		WHERE SEQ = #{seq}
+  	</select>
+  	
+  	<delete id="delete">
+  		DELETE FROM BOARD_STUDY WHERE SEQ = #{seq}
+  	</delete>
+  	
+  	<update id="update">
+  		UPDATE BOARD_STUDY SET BOARD_SUBJECT = #{boardSubject}, BOARD_CONTENT = #{boardContent}, UPT_DATE = SYSDATE WHERE SEQ = #{seq}
+  	</update>
+  	
+  	<update id="viewCnt">
+  		UPDATE BOARD_STUDY SET VIEW_CNT = NVL(VIEW_CNT, 0) + 1 WHERE SEQ = #{seq}
+  	</update>
+  	
+  	<select id="totalCount" resultType="Integer">
+  		SELECT COUNT(*) FROM BOARD_STUDY
+                WHERE 1=1
+                <if test="searchType != null">
+			        <choose>
+			        	<when test="searchType == 'memName'">
+				  			AND MEM_NAME LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<when test="searchType == 'title'">
+				  			AND BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				  		</when>
+				  		<otherwise>
+			                AND (BOARD_SUBJECT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%'
+			                OR BOARD_CONTENT LIKE '%' || #{keyword, jdbcType=VARCHAR} || '%')
+			            </otherwise>
+			        </choose>
+		        </if>
+  	</select>
+  	
+  	<select id="selectFileList" resultMap="fileMap">
+		SELECT FILE_SEQ, REAL_NAME, SAVE_NAME, REG_DATE, SAVE_PATH, LIST_SEQ
+			FROM FILE_STUDY_TABLE
+		WHERE LIST_SEQ = #{seq}
+	</select>
+		<!-- 파일 정보 조회 -->
+	<select id="selectFileInfo" resultMap="fileMap">
+		SELECT 
+			SAVE_NAME,
+			REAL_NAME
+		FROM file_study_table
+		WHERE FILE_SEQ = #{fileSeq}
+	</select>
+  </mapper>
