@@ -25,6 +25,15 @@
   		<result column="LIST_SEQ" property="listSeq"/>
   	</resultMap>
   	
+  	<resultMap type="map" id="food">
+  		<result column="DESCRIPTION" property="description"/>
+  		<result column="FOOD" property="food"/>
+  		<result column="CODE" property="code"/>
+  		<result column="GOOD" property="good"/>
+  		<result column="PRICE" property="price"/>
+  		<result column="ID" property="id"/>
+  	</resultMap>
+  	
   	<!-- 자주쓰는거 등록해놓는 곳 -->
  	<sql id="list">
  		SEQ
@@ -151,5 +160,9 @@
 			REAL_NAME
 		FROM file_study_table
 		WHERE FILE_SEQ = #{fileSeq}
+	</select>
+	
+	<select id="viewAll" resultMap="food">
+	  SELECT DESCRIPTION, FOOD, CODE, GOOD, PRICE, ID FROM REACT_EXAM_DATA
 	</select>
   </mapper>

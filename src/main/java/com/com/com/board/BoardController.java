@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -347,5 +348,16 @@ public class BoardController {
 		response.getOutputStream().flush();
 		//출력스트림을 닫는다
 		response.getOutputStream().close();
+	}
+	
+	@RequestMapping("foodList")
+	@ResponseBody
+	public List<Map<String, Object>> foodList(@RequestParam Map<String, Object> map, Model model) {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		list = service.viewAll();
+		
+		return list;
+		
 	}
 }
