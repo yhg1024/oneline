@@ -27,4 +27,6 @@ public interface BoardServiceInter {
 
 	Map<String, Object> selectFileInfo(int seq);
 
+	List<Map<String, Object>> viewAll();
+
 }

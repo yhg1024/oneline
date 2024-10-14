@@ -19,7 +19,7 @@ public class BoardDaoClass implements BoardDaoInter {
 
 	@Override
 	public List<Map<String, Object>> list(Map<String, Object> map) {
-		HashMap<String, Object> data = new HashMap<String, Object>(map); // mapÀÇ ³»¿ëÀ» data¿¡ º¹»ç
+		HashMap<String, Object> data = new HashMap<String, Object>(map); // mapï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	    
 	    data.put("searchType", map.getOrDefault("searchType", ""));
 		data.put("endDate", map.getOrDefault("endDate", "")); 
@@ -89,6 +89,12 @@ public class BoardDaoClass implements BoardDaoInter {
 	public Map<String, Object> selectFileInfo(int seq) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.selectFileInfo", seq);
+	}
+
+	@Override
+	public List<Map<String, Object>> viewAll() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.viewAll");
 	}
 
 	

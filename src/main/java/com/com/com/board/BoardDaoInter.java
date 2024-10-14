@@ -26,4 +26,6 @@ public interface BoardDaoInter {
 	List<Map<String, Object>> selectFileList(int seq);
 
 	Map<String, Object> selectFileInfo(int seq);
+
+	List<Map<String, Object>> viewAll();
 }

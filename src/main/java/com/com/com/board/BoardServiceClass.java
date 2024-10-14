@@ -69,6 +69,12 @@ public class BoardServiceClass implements BoardServiceInter{
 		// TODO Auto-generated method stub
 		return dao.selectFileInfo(seq);
 	}
+
+	@Override
+	public List<Map<String, Object>> viewAll() {
+		// TODO Auto-generated method stub
+		return dao.viewAll();
+	}
 	
 	
 
