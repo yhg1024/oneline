@@ -171,16 +171,8 @@
 		WHERE FILE_SEQ = #{fileSeq}
 	</select>
 	
-	<select id="foodListKor" resultMap="food">
-	  SELECT <include refid="food"></include>  FROM REACT_EXAM_DATA WHERE CODE = 'kor' ORDER BY ID
-	</select>
-	
-	<select id="foodListCha" resultMap="food">
-	  SELECT <include refid="food"></include> FROM REACT_EXAM_DATA WHERE CODE = 'cha' ORDER BY ID
-	</select>
-	
-	<select id="foodListJpa" resultMap="food">
-	  SELECT <include refid="food"></include> FROM REACT_EXAM_DATA WHERE CODE = 'jpa' ORDER BY ID
+	<select id="foodList" resultMap="food">
+	  SELECT <include refid="food"></include>  FROM REACT_EXAM_DATA ORDER BY ID
 	</select>
 	
 	<insert id="insertFood">

@@ -91,22 +91,7 @@ public class BoardDaoClass implements BoardDaoInter {
 		return sqlSession.selectOne("mapper.selectFileInfo", seq);
 	}
 
-	@Override
-	public List<Map<String, Object>> foodListKor() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.foodListKor");
-	}
-	@Override
-	public List<Map<String, Object>> foodListCha() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.foodListCha");
-	}
-	@Override
-	public List<Map<String, Object>> foodListJpa() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.foodListJpa");
-	}
-
+	
 	@Override
 	public int insertFood(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -124,6 +109,12 @@ public class BoardDaoClass implements BoardDaoInter {
 		// TODO Auto-generated method stub
 		System.out.println("map = " + map);
 		return sqlSession.delete("mapper.deleteFood", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> foodList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.foodList");
 	}
 
 	

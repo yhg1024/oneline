@@ -351,25 +351,11 @@ public class BoardController {
 		response.getOutputStream().close();
 	}
 	
-	@RequestMapping("foodListKor")
+	@RequestMapping("foodList")
 	@ResponseBody
-	public List<Map<String, Object>> foodListKor(@RequestParam Map<String, Object> map, Model model) {
+	public List<Map<String, Object>> foodList(@RequestParam Map<String, Object> map, Model model) {
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();		
-		list = service.foodListKor();		
-		return list;		
-	}
-	@RequestMapping("foodListCha")
-	@ResponseBody
-	public List<Map<String, Object>> foodListCha(@RequestParam Map<String, Object> map, Model model) {
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();		
-		list = service.foodListCha();		
-		return list;		
-	}
-	@RequestMapping("foodListJpa")
-	@ResponseBody
-	public List<Map<String, Object>> foodListJpa(@RequestParam Map<String, Object> map, Model model) {
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();		
-		list = service.foodListJpa();		
+		list = service.foodList();		
 		return list;		
 	}
 	

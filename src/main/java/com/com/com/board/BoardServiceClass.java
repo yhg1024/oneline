@@ -71,22 +71,6 @@ public class BoardServiceClass implements BoardServiceInter{
 	}
 
 	@Override
-	public List<Map<String, Object>> foodListKor() {
-		// TODO Auto-generated method stub
-		return dao.foodListKor();
-	}
-	@Override
-	public List<Map<String, Object>> foodListCha() {
-		// TODO Auto-generated method stub
-		return dao.foodListCha();
-	}
-	@Override
-	public List<Map<String, Object>> foodListJpa() {
-		// TODO Auto-generated method stub
-		return dao.foodListJpa();
-	}
-
-	@Override
 	public int insertFood(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return dao.insertFood(map);
@@ -102,6 +86,12 @@ public class BoardServiceClass implements BoardServiceInter{
 	public int deleteFood(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return dao.deleteFood(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> foodList() {
+		// TODO Auto-generated method stub
+		return dao.foodList();
 	}
 	
 	
