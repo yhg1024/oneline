@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -350,14 +351,44 @@ public class BoardController {
 		response.getOutputStream().close();
 	}
 	
-	@RequestMapping("foodList")
+	@RequestMapping("foodListKor")
 	@ResponseBody
-	public List<Map<String, Object>> foodList(@RequestParam Map<String, Object> map, Model model) {
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+	public List<Map<String, Object>> foodListKor(@RequestParam Map<String, Object> map, Model model) {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();		
+		list = service.foodListKor();		
+		return list;		
+	}
+	@RequestMapping("foodListCha")
+	@ResponseBody
+	public List<Map<String, Object>> foodListCha(@RequestParam Map<String, Object> map, Model model) {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();		
+		list = service.foodListCha();		
+		return list;		
+	}
+	@RequestMapping("foodListJpa")
+	@ResponseBody
+	public List<Map<String, Object>> foodListJpa(@RequestParam Map<String, Object> map, Model model) {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();		
+		list = service.foodListJpa();		
+		return list;		
+	}
+	
+	@RequestMapping("insertFood")
+	@ResponseBody
+	public void insertFood (HttpServletRequest request,@RequestBody Map<String, Object> map) {
+		int insert = service.insertFood(map);		
+	}
+	
+	@RequestMapping("updateFood")
+	@ResponseBody
+	public void updateFood (HttpServletRequest request,@RequestBody Map<String, Object> map) {
+		int update = service.updateFood(map);
+	}
+	
+	@RequestMapping("deleteFood")
+	@ResponseBody
+	public void deleteFood (HttpServletRequest request,@RequestBody Map<String, Object> map) {
 		
-		list = service.viewAll();
-		
-		return list;
-		
+		int delete = service.deleteFood(map);
 	}
 }

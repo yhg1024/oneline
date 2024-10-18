@@ -46,6 +46,15 @@
  		, VIEW_CNT
  		, USEYN 
  	</sql>
+ 	
+ 	<sql id="food">
+ 	 	DESCRIPTION
+ 	 	, FOOD
+ 	 	, CODE
+ 	 	, GOOD
+ 	 	, PRICE
+ 	 	, ID 
+ 	</sql>
   
   	<select id="list" resultMap="rsMap">
   		SELECT <include refid="list"></include>
@@ -162,7 +171,29 @@
 		WHERE FILE_SEQ = #{fileSeq}
 	</select>
 	
-	<select id="viewAll" resultMap="food">
-	  SELECT DESCRIPTION, FOOD, CODE, GOOD, PRICE, ID FROM REACT_EXAM_DATA
+	<select id="foodListKor" resultMap="food">
+	  SELECT <include refid="food"></include>  FROM REACT_EXAM_DATA WHERE CODE = 'kor' ORDER BY ID
 	</select>
+	
+	<select id="foodListCha" resultMap="food">
+	  SELECT <include refid="food"></include> FROM REACT_EXAM_DATA WHERE CODE = 'cha' ORDER BY ID
+	</select>
+	
+	<select id="foodListJpa" resultMap="food">
+	  SELECT <include refid="food"></include> FROM REACT_EXAM_DATA WHERE CODE = 'jpa' ORDER BY ID
+	</select>
+	
+	<insert id="insertFood">
+	INSERT INTO REACT_EXAM_DATA (<include refid="food"></include>) VALUES (
+    	#{description},
+    	#{food},#{code},#{good},#{price},(SELECT NVL(MAX(ID), 0)+1 FROM REACT_EXAM_DATA))
+	</insert>
+	
+	<update id="updateFood">
+		UPDATE REACT_EXAM_DATA SET DESCRIPTION = #{description} , FOOD = #{food}, CODE = #{code} , GOOD = #{good}, PRICE =#{price} WHERE ID = #{id}
+	</update>
+	
+	<delete id="deleteFood">
+		DELETE FROM REACT_EXAM_DATA WHERE ID = #{id}
+	</delete>
   </mapper>

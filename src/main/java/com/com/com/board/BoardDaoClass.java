@@ -92,9 +92,38 @@ public class BoardDaoClass implements BoardDaoInter {
 	}
 
 	@Override
-	public List<Map<String, Object>> viewAll() {
+	public List<Map<String, Object>> foodListKor() {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.viewAll");
+		return sqlSession.selectList("mapper.foodListKor");
+	}
+	@Override
+	public List<Map<String, Object>> foodListCha() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.foodListCha");
+	}
+	@Override
+	public List<Map<String, Object>> foodListJpa() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.foodListJpa");
+	}
+
+	@Override
+	public int insertFood(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mapper.insertFood", map);
+	}
+
+	@Override
+	public int updateFood(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("mapper.updateFood", map);
+	}
+
+	@Override
+	public int deleteFood(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		System.out.println("map = " + map);
+		return sqlSession.delete("mapper.deleteFood", map);
 	}
 
 	

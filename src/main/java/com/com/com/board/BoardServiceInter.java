@@ -27,6 +27,16 @@ public interface BoardServiceInter {
 
 	Map<String, Object> selectFileInfo(int seq);
 
-	List<Map<String, Object>> viewAll();
+	List<Map<String, Object>> foodListKor();
+	
+	List<Map<String, Object>> foodListCha();
+	
+	List<Map<String, Object>> foodListJpa();
+
+	int insertFood(Map<String, Object> map);
+
+	int updateFood(Map<String, Object> map);
+
+	int deleteFood(Map<String, Object> map);
 
 }
